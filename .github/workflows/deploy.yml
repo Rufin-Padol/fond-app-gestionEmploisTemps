@@ -71,11 +71,11 @@ jobs:
         strip_components: 0
         debug: true
 
-    - name: Verify downloaded artifacts
-      run: |
-        echo "Downloaded build files:"
-        ls -la dist/
-        find dist/ -name "*.js" -o -name "*.css" -o -name "*.html" | head -10
+    # - name: Verify downloaded artifacts
+    #   run: |
+    #     echo "Downloaded build files:"
+    #     ls -la dist/
+    #     find dist/ -name "*.js" -o -name "*.css" -o -name "*.html" | head -10
 
     # Étape de debug ajoutée
     - name: Debug SSH Configuration
