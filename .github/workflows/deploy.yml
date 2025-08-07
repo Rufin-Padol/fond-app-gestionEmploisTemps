@@ -115,7 +115,7 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         source: "Dockerfile"
-        target: "/home/deploy/angular-app/"
+        target: "/home/mbemnova1/deploy/angular-app/"
 
     - name: Transfer docker-compose.yml
       uses: appleboy/scp-action@v0.1.7
@@ -124,7 +124,7 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         source: "docker-compose.yml"
-        target: "/home/deploy/angular-app/"
+        target: "/home/mbemnova1/deploy/angular-app/"
 
     - name: Transfer nginx.conf
       uses: appleboy/scp-action@v0.1.7
@@ -133,7 +133,7 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         source: "nginx.conf"
-        target: "/home/deploy/angular-app/"
+        target: "/home/mbemnova1/deploy/angular-app/"
 
 
     - name: Deploy on VPS
@@ -148,11 +148,11 @@ jobs:
           echo "🚀 Démarrage du déploiement Angular..."
           
           # Créer les répertoires nécessaires
-          mkdir -p /home/deploy/angular-app
+          mkdir -p /home/mbemnova1/deploy/angular-app
           mkdir -p /tmp/angular-build
           
           # Naviguer vers le répertoire de déploiement
-          cd /home/deploy/angular-app
+          cd /home/mbemnova1/deploy/angular-app
           
           # Vérifier les fichiers transférés
           echo "📁 Fichiers Docker disponibles:"
