@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Build Angular app
-        run: npm run build -- --prod
+        run: npm run build -- --configuration production
 
       - name: Deploy to VPS via SCP
         uses: appleboy/scp-action@v0.1.4
