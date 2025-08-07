@@ -72,7 +72,32 @@ jobs:
         ls -la dist/
         find dist/ -name "*.js" -o -name "*.css" -o -name "*.html" | head -10
 
-    - name: Transfer files to VPS via SCP
+    # Étape de debug ajoutée
+    - name: Debug SSH Configuration
+      run: |
+        echo "=== Debug SSH Configuration ==="
+        echo "Host: ${{ secrets.VPS_HOST }}"
+        echo "Username: ${{ secrets.VPS_USERNAME }}"
+        echo "Key contents (first 50 chars):"
+        echo "${{ secrets.VPS_SSH_KEY }}" | head -c 50
+        echo "..."
+        echo "Key ends with:"
+        echo "${{ secrets.VPS_SSH_KEY }}" | tail -c 50
+        
+        mkdir -p ~/.ssh
+        echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        echo "SSH key file created with permissions:"
+        ls -la ~/.ssh/deploy_key
+        
+        echo "Testing SSH connection (verbose mode):"
+        ssh -i ~/.ssh/deploy_key \
+            -o StrictHostKeyChecking=no \
+            -v \
+            ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} \
+            "echo 'SSH connection successful'" || echo "SSH connection failed"
+
+    - name: Transfer files to VPS via SCP (with debug)
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.VPS_HOST }}
@@ -81,6 +106,7 @@ jobs:
         source: "dist/emplois-temps-fond/*"
         target: "/tmp/angular-build/"
         strip_components: 2
+        debug: true  # Activation du mode debug
 
     - name: Transfer Dockerfile
       uses: appleboy/scp-action@v0.1.7
