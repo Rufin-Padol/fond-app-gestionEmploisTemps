@@ -22,7 +22,8 @@ FROM nginx:alpine
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copier la configuration nginx personnalisée
-COPY nginx.conf /etc/nginx/conf.d/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 
 # Copier les fichiers buildés depuis l'étape précédente
 COPY --from=builder /app/dist/emplois-temps-fond/ /usr/share/nginx/html/
