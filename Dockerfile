@@ -6,7 +6,7 @@ WORKDIR /app
 # Copier les fichiers de dépendances
 COPY package*.json ./
 
-# Installer les dépendances (sans --only=production pour le build)
+# Installer les dépendances
 RUN npm ci
 
 # Copier le code source
@@ -25,11 +25,10 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/
 
 # Copier les fichiers buildés depuis l'étape précédente
-COPY --from=builder /app/dist/emplois-temps-fond /usr/share/nginx/html
+COPY --from=builder /app/dist/emplois-temps-fond/ /usr/share/nginx/html/
 
 # Exposer le port 80
 EXPOSE 80
 
 # Démarrer nginx
 CMD ["nginx", "-g", "daemon off;"]
- 
