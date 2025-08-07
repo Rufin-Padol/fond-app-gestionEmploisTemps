@@ -1,0 +1,53 @@
+/* Styles personnalisés pour le composant professeur */
+
+.professeur-card {
+  transition: all 0.3s ease;
+}
+
+.professeur-card:hover {
+  transform: translateY(-2px);
+}
+
+.filter-input:focus {
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+}
+
+.action-button {
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+}
+
+/* Animation pour les cartes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.professeur-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .professeur-card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Badge styles */
+.matiere-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.departement-badge {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}

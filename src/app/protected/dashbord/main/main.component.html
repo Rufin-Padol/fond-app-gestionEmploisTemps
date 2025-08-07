@@ -1,0 +1,248 @@
+<!-- dashboard.component.html -->
+<div class=" bg-gray-50 p-6">
+  <!-- Header -->
+  <!-- Header amélioré -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+  
+
+   <div class="">
+  <h1 class="text-[20px] font-medium text-gray-700 leading-tight">
+Gestion des Emplois du Temps
+  </h1>
+  <p class="mt-1 text-[13px] text-gray-500">
+  Lycée Technique de Mbanga - Année scolaire 2024/2025
+  </p>
+</div>
+  
+  <div class="flex items-center gap-4">
+    <!-- Logo optionnel -->
+    <div class="hidden md:block">
+      <img src="\img\timeShool.webp" alt="Logo du Lycée" class="h-12 w-auto">
+    </div>
+    
+    <!-- Badge utilisateur -->
+    <div class="bg-blue-100 px-4 py-2 rounded-lg border border-blue-200">
+      <p class="text-blue-800 font-medium text-sm">Connecté en tant qu'{{role}}</p>
+    </div>
+  </div>
+</header>
+
+
+
+  <!-- Stats Cards -->
+ 
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+  <!-- Enseignants -->
+  <div class="rounded-lg bg-white p-4 shadow-xs border border-gray-100">
+    <div class="flex items-start justify-between">
+      <div>
+        <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Enseignants</p>
+        <h3 class="text-2xl font-bold text-gray-900 mt-1">{{etablissement?.nombreEnseignants}}</h3>
+      </div>
+      <div class="bg-blue-50 p-2 rounded-lg">
+        <svg class="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+      </div>
+    </div>
+    <div class="mt-3 flex items-center text-xs font-medium text-green-500">
+      <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+      </svg>
+      +3 cette année
+    </div>
+  </div>
+
+  <!-- Classes -->
+  <div class="rounded-lg bg-white p-4 shadow-xs border border-gray-100">
+    <div class="flex items-start justify-between">
+      <div>
+        <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Classes</p>
+        <h3 class="text-2xl font-bold text-gray-900 mt-1">{{etablissement?.nombreClasses}}</h3>
+      </div>
+      <div class="bg-purple-50 p-2 rounded-lg">
+        <svg class="h-5 w-5 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+      </div>
+    </div>
+    <div class="mt-3 flex items-center text-xs font-medium text-green-500">
+      <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+      </svg>
+      +2 cette année
+    </div>
+  </div>
+
+  <!-- Département -->
+  <div class="rounded-lg bg-white p-4 shadow-xs border border-gray-100">
+    <div class="flex items-start justify-between">
+      <div>
+        <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">{{etablissement?.nombreDepartements}}</p>
+        <h3 class="text-2xl font-bold text-gray-900 mt-1">7</h3>
+      </div>
+      <div class="bg-green-50 p-2 rounded-lg">
+        <svg class="h-5 w-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+        </svg>
+      </div>
+    </div>
+    <p class="mt-3 text-xs text-gray-500">Stable</p>
+  </div>
+
+  <!-- Salles -->
+  <div class="rounded-lg bg-white p-4 shadow-xs border border-gray-100">
+    <div class="flex items-start justify-between">
+      <div>
+        <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Salles</p>
+        <h3 class="text-2xl font-bold text-gray-900 mt-1">24</h3>
+      </div>
+      <div class="bg-amber-50 p-2 rounded-lg">
+        <svg class="h-5 w-5 text-amber-600" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M4 5a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V5z"/>
+          <path d="M8 10h8v4H8v-4z"/>
+        </svg>
+      </div>
+    </div>
+    <p class="mt-3 text-xs text-gray-500">Stable</p>
+  </div>
+</div>
+  <!-- Quick Actions -->
+  <div class="mx-auto max-w-7xl  pb-8">
+  <!-- Header -->
+  <div class=" flex items-end justify-between border-b border-gray-200 pb-4">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+        <svg class="mr-2 h-6 w-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M13 10h5l-6 6l-6-6h5V3h2v7zm-9 9h16v-7h2v9H2v-9h2v7z"/>
+        </svg>
+        Actions Rapides
+      </h2>
+      <p class="text-gray-500">Gestion simplifiée de vos emplois du temps</p>
+    </div>
+    <span class="text-sm text-gray-400">Formats supportés: CSV, XLSX, PDF, PNG</span>
+  </div>
+
+
+</div>
+  
+  <!-- Main Content -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Recent Activity -->
+      <div class="mx-auto lg:col-span-2 w-full">
+  <!-- Actions Grid -->
+  <div class="grid grid-cols-2 gap-3 ">
+    <!-- Créer -->
+    <button routerLink="/dashboard/emplois-du-temps/new-emploi-classe" routerLinkActive="router-link-active"  class="group main-card  relative rounded-lg bg-white p-4 text-left shadow-sm ring-1 ring-gray-200 transition-all duration-200 hover:shadow-md hover:ring-2 hover:ring-blue-500">
+      <div class="absolute right-3 top-3 flex h-10 items-center justify-center rounded-lg bg-blue-50 p-2 text-blue-600 transition-all duration-200 group-hover:bg-blue-100">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+        </svg>
+      </div>
+      <h3  class="text-base font-semibold text-gray-900">Créer un EDT</h3>
+      <p class="mt-1 text-xs text-gray-500">Nouvel emploi du temps vierge</p>
+      <div class="mt-4 flex gap-1">
+        <span class="rounded-full bg-blue-100 px-2 py-0.5 text-[0.65rem] text-blue-800">.EDT</span>
+        <span class="rounded-full bg-blue-100 px-2 py-0.5 text-[0.65rem] text-blue-800">.TEMPLATE</span>
+      </div>
+    </button>
+
+    <!-- Importer -->
+    <button class="group main-card relative rounded-lg bg-white p-4 text-left shadow-sm ring-1 ring-gray-200 transition-all duration-200 hover:shadow-md hover:ring-2 hover:ring-green-500">
+      <div class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg bg-green-50 p-2 text-green-600 transition-all duration-200 group-hover:bg-green-100">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+        </svg>
+      </div>
+      <h3 class="text-base font-semibold text-gray-900">Importer</h3>
+      <p class="mt-1 text-xs text-gray-500">Données élèves/enseignants</p>
+      <div class="mt-4 flex flex-wrap gap-1">
+        <span class="rounded-full bg-green-100 px-2 py-0.5 text-[0.65rem] text-green-800">CSV</span>
+        <span class="rounded-full bg-green-100 px-2 py-0.5 text-[0.65rem] text-green-800">XLSX</span>
+        <span class="rounded-full bg-green-100 px-2 py-0.5 text-[0.65rem] text-green-800">JSON</span>
+      </div>
+    </button>
+
+    <!-- Exporter -->
+    <button class="group main-card relative rounded-lg bg-white p-4 text-left shadow-sm ring-1 ring-gray-200 transition-all duration-200 hover:shadow-md hover:ring-2 hover:ring-purple-500">
+      <div class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 p-2 text-purple-600 transition-all duration-200 group-hover:bg-purple-100">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+      </div>
+      <h3 class="text-base font-semibold text-gray-900">Exporter</h3>
+      <p class="mt-1 text-xs text-gray-500">Tous les emplois du temps</p>
+      <div class="mt-4 flex flex-wrap gap-1">
+        <span class="rounded-full bg-purple-100 px-2 py-0.5 text-[0.65rem] text-purple-800">PDF</span>
+        <span class="rounded-full bg-purple-100 px-2 py-0.5 text-[0.65rem] text-purple-800">XLSX</span>
+        <span class="rounded-full bg-purple-100 px-2 py-0.5 text-[0.65rem] text-purple-800">PNG</span>
+      </div>
+    </button>
+
+    <!-- Vérifier -->
+    <button class="group main-card relative rounded-lg bg-white p-4 text-left shadow-sm ring-1 ring-gray-200 transition-all duration-200 hover:shadow-md hover:ring-2 hover:ring-amber-500">
+      <div class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 p-2 text-amber-600 transition-all duration-200 group-hover:bg-amber-100">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+      </div>
+      <h3 class="text-base font-semibold text-gray-900">Vérifier</h3>
+      <p class="mt-1 text-xs text-gray-500">Conflits d'horaires</p>
+      <div class="mt-4 flex flex-wrap gap-1">
+        <span class="rounded-full bg-amber-100 px-2 py-0.5 text-[0.65rem] text-amber-800">REPORT</span>
+        <span class="rounded-full bg-amber-100 px-2 py-0.5 text-[0.65rem] text-amber-800">LOG</span>
+      </div>
+    </button>
+  </div>
+</div>
+
+    <!-- Classes Overview -->
+<div class="col-span-1 main-card bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+  <!-- En-tête redessiné - version pro -->
+  <div class="flex justify-between items-center mb-3 pb-2 border-b border-gray-100">
+    <div>
+      <h2 class="text-lg font-medium text-gray-800">Activités récentes</h2>
+      <p class="text-xs text-gray-500">Dernières modifications des emplois du temps</p>
+    </div>
+    <button class="text-xs px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-colors duration-150 flex items-center">
+      <span>Tout voir</span>
+      <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Liste des activités - version compacte et responsive -->
+  <div class="space-y-4 ">
+    <!-- Item 1 -->
+    <div class="flex items-start p-2    bg-green-500/30 hover:bg-green-500/50  rounded-lg transition-colors duration-150">
+      <div class="flex-shrink-0 mt-0.5">
+        <div class="h-2 w-2 bg-green-500 rounded-full"></div>
+      </div>
+      <div class="ml-2 flex-1 min-w-0">
+        <div class="flex justify-between">
+          <p class="text-sm font-medium text-gray-800 truncate">Validation terminée</p>
+          <span class="text-xs text-gray-400 ml-2 whitespace-nowrap">10:30</span>
+        </div>
+        <p class="text-xs text-gray-500 truncate">Terminale A - Filière Technique</p>
+      </div>
+    </div>
+
+    
+    <div class="flex main-card items-start p-2 bg-red-500/30 hover:bg-red-500/50 rounded-lg transition-colors duration-150">
+      <div class="flex-shrink-0 mt-0.5">
+        <div class="h-2 w-2 bg-red-500 rounded-full"></div>
+      </div>
+      <div class="ml-2 flex-1 min-w-0">
+        <div class="flex justify-between">
+          <p class="text-sm font-medium text-gray-800 truncate">Conflit détecté</p>
+          <span class="text-xs text-gray-400 ml-2 whitespace-nowrap">Hier</span>
+        </div>
+        <p class="text-xs text-gray-500 truncate">Terminale C - Technique</p>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+</div>

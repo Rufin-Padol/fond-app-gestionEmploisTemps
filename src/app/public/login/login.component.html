@@ -1,0 +1,84 @@
+<!-- <app-loading *ngIf="isLoading"></app-loading> -->
+<app-loading *ngIf="isLoading"></app-loading>
+
+<div *ngIf="!isLoading"  class="h-screen flex items-center justify-center bg-[#2A97FF]/10 dark:bg-gray-900">
+    <div class="flex w-full  max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
+    <div class="hidden bg-cover lg:block lg:w-1/2  border-[#2A97FF]/40  bg border-r-1 rounded-r-4xl"   ></div>
+
+    <div class="w-full px-6 py-8 md:px-8 lg:w-1/2">
+        <div class="flex justify-center mx-auto">
+            <img class="w-auto h-12 sm:h-16" src="img\timeShool.webp" alt="">
+        </div>
+
+        <p class="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
+          Bienvenue sur TimeSchool
+        </p>
+
+        <p class="mt-1 text-sm text-center text-gray-500 dark:text-gray-400">
+            Connectez-vous pour accéder à votre emploi du temps personnalisé et simplifier votre vie scolaire.
+        </p>
+<div *ngIf="error" class="bg-red-200 rounded text-red-600  p-1 px-2 my-1">
+  <small>{{error}}</small>
+</div>
+       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+     <div class="mt-4">
+            <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="LoggingEmailAddress">Adresse email</label>
+            <input id="LoggingEmailAddress"   formControlName="email" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="email" />
+        </div>
+
+        <div class="mt-4">
+    <div class="flex justify-between">
+        <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="loggingPassword">Mot de passe</label>
+        <a href="#" class="text-xs text-gray-500 dark:text-gray-300 hover:underline">Forget Password?</a>
+    </div>
+
+    <div class="relative">
+        <input id="loggingPassword" formControlName="password" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" [type]="showPassword ? 'text' : 'password'" />
+        <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 dark:text-gray-400" (click)="showPassword = !showPassword">
+            <span class="material-icons">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+        </button>
+    </div>
+</div>
+        <div class="mt-6">
+           <button    type="submit"
+          class="w-full px-5 flex justify-center items-center gap-2  mt-6  tracking-wider       py-1.5 md:py-2.5 rounded-lg text-white font-medium text-base bg-gradient-to-r from-[#2A97FF] to-[#2A55FF] hover:bg-gradient-to-l transition-all duration-300 transform hover:-translate-y-0.5 shadow hover:shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+          aria-label="Login"
+        >
+          <span class="text-sm md:text-xl" >Connexion</span>
+         <svg class="w-5 h-5"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-white"
+          >
+            <path
+              d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"
+            />
+            <path d="m21 2-9.6 9.6" />
+            <circle cx="7.5" cy="15.5" r="5.5" />
+            
+          </svg>
+        </button>
+        </div>
+    
+    </form>
+
+       
+
+        <!-- <div class="flex items-center justify-between mt-4">
+            <span class="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
+
+            <a href="#" class="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline">or sign up</a>
+
+            <span class="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
+        </div> -->
+    </div>
+</div>
+
+</div>

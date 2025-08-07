@@ -1,0 +1,183 @@
+name: Deploy Angular App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22.17.0'
+        cache: 'npm'
+
+    - name: Verify Node and npm versions
+      run: |
+        echo "Node version: $(node --version)"
+        echo "npm version: $(npm --version)"
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Verify Angular CLI version
+      run: |
+        npx ng version
+        echo "Angular project structure:"
+        ls -la src/
+
+    - name: Build application
+      run: npm run build
+
+    - name: Verify build output
+      run: |
+        echo "Build output:"
+        ls -la dist/
+        echo "Build size:"
+        du -sh dist/
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: angular-build
+        path: dist/
+        retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: angular-build
+        path: dist/
+
+    - name: Verify downloaded artifacts
+      run: |
+        echo "Downloaded build files:"
+        ls -la dist/
+        find dist/ -name "*.js" -o -name "*.css" -o -name "*.html" | head -10
+
+    - name: Transfer files to VPS via SCP
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        source: "dist/emplois-temps-fond/*"
+        target: "/tmp/angular-build/"
+        strip_components: 2
+
+    - name: Transfer Docker files to VPS
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        source: "Dockerfile,nginx.conf,docker-compose.yml"
+        target: "/home/deploy/angular-app/"
+
+    - name: Deploy on VPS
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          set -e
+          
+          echo "🚀 Démarrage du déploiement Angular..."
+          
+          # Créer les répertoires nécessaires
+          mkdir -p /home/deploy/angular-app
+          mkdir -p /tmp/angular-build
+          
+          # Naviguer vers le répertoire de déploiement
+          cd /home/deploy/angular-app
+          
+          # Vérifier les fichiers transférés
+          echo "📁 Fichiers Docker disponibles:"
+          ls -la
+          
+          echo "📁 Build Angular disponible:"
+          ls -la /tmp/angular-build/
+          
+          # Arrêter et supprimer l'ancien container
+          echo "📦 Arrêt de l'ancien container..."
+          docker stop angular-app 2>/dev/null || echo "Aucun container à arrêter"
+          docker rm angular-app 2>/dev/null || echo "Aucun container à supprimer"
+          
+          # Nettoyer les anciennes images
+          echo "🧹 Nettoyage des anciennes images..."
+          docker image prune -f
+          
+          # Créer un Dockerfile temporaire qui copie les fichiers pré-buildés
+          cat > Dockerfile.deploy << 'EOF'
+          FROM nginx:alpine
+          
+          # Supprimer la configuration nginx par défaut
+          RUN rm /etc/nginx/conf.d/default.conf
+          
+          # Copier la configuration nginx personnalisée
+          COPY nginx.conf /etc/nginx/conf.d/
+          
+          # Copier les fichiers buildés depuis le répertoire temporaire
+          COPY /tmp/angular-build/ /usr/share/nginx/html/
+          
+          # Exposer le port 80
+          EXPOSE 80
+          
+          # Démarrer nginx
+          CMD ["nginx", "-g", "daemon off;"]
+          EOF
+          
+          # Créer une image temporaire avec les fichiers buildés
+          docker create --name build-files alpine
+          docker cp /tmp/angular-build/. build-files:/tmp/angular-build/
+          
+          # Build de la nouvelle image
+          echo "🔨 Build de la nouvelle image..."
+          docker build -f Dockerfile.deploy -t angular-app:latest .
+          
+          # Nettoyer l'image temporaire
+          docker rm build-files 2>/dev/null || true
+          
+          # Démarrer le nouveau container
+          echo "🎯 Démarrage du nouveau container..."
+          docker run -d \
+            --name angular-app \
+            -p 3000:80 \
+            --restart unless-stopped \
+            angular-app:latest
+          
+          # Vérifier que le container fonctionne
+          sleep 5
+          if docker ps | grep -q angular-app; then
+            echo "✅ Déploiement réussi! Application disponible sur le port 3000"
+            echo "📋 Status du container:"
+            docker ps | grep angular-app
+            echo "📋 Logs récents:"
+            docker logs angular-app --tail 10
+          else
+            echo "❌ Erreur lors du déploiement"
+            docker logs angular-app --tail 20
+            exit 1
+          fi
+          
+          # Nettoyer les fichiers temporaires
+          rm -rf /tmp/angular-build/*
+          rm -f Dockerfile.deploy

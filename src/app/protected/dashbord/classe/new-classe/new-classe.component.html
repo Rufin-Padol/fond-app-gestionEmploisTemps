@@ -1,0 +1,162 @@
+<div class="min-h-screen bg-gray-50 p-6">
+  <!-- Breadcrumb simple -->
+  <nav class="mb-6">
+    <div class="flex items-center space-x-2 text-sm text-gray-600">
+      <a routerLink="/dashboard" class="hover:text-gray-900">Dashboard</a>
+      <span>/</span>
+      <a   routerLink="/dashboard/classes/liste-classes" class="hover:text-gray-900">Classes</a>
+      <span>/</span>
+      <span class="text-gray-900">Nouvelle classe</span>
+    </div>
+  </nav>
+
+  <!-- Titre -->
+ <div class="mb-10">
+  <h1 class="text-[20px] font-medium text-gray-700 leading-tight">
+    Créer une nouvelle classe
+  </h1>
+  <p class="mt-1 text-[13px] text-gray-500">
+    Remplissez les informations pour ajouter une classe à l’établissement.
+  </p>
+</div>
+
+
+
+  <!-- Formulaire -->
+  <div class="max-w-7xl mx-auto">
+    <div class="bg-white rounded-lg border border-gray-200 p-6">
+      <form (ngSubmit)="onSubmit()">
+
+        <div class="fixed top-0 left-0 right-0 z-50">
+ <div *ngIf="errorMessage" class="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
+          {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="mb-4 p-3 bg-green-50 border border-green-200 rounded text-green-700 text-sm">
+          {{ successMessage }}
+        </div>
+
+        </div>
+        <!-- Messages -->
+       
+        <!-- Champs du formulaire -->
+        <div class="space-y-4">
+          <!-- Nom de la classe -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Nom de la classe *
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="classe.nom"
+               (blur)="touchedFields['nom'] = true"
+              name="nom"
+              placeholder="Ex: Terminale A, Première B..."
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              [class.border-red-300]="isFieldInvalid('nom')"
+              required>
+            <div *ngIf="isFieldInvalid('nom')" class="mt-1 text-sm text-red-600">
+              Le nom de la classe est requis
+            </div>
+          </div>
+
+          <!-- Niveau -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Cycle *
+            </label>
+            <select
+              [(ngModel)]="classe.niveau"
+              name="niveau"
+              (blur)="touchedFields['niveau'] = true"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              [class.border-red-300]="isFieldInvalid('niveau')"
+              required>
+              <option value="">Sélectionner un niveau</option>
+              <option *ngFor="let niveau of cycle" [value]="niveau">{{ niveau }}</option>
+            </select>
+            <div *ngIf="isFieldInvalid('niveau')" class="mt-1 text-sm text-red-600">
+              Le cycle est requis
+            </div>
+          </div>
+
+          <!-- Filière -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Filière *
+            </label>
+            <select
+              [(ngModel)]="classe.filiere"
+                (blur)="touchedFields['filiere'] = true"
+              name="filiere"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              [class.border-red-300]="isFieldInvalid('filiere')"
+              required>
+              <option value="">Sélectionner une filière</option>
+              <option *ngFor="let filiere of filieres" [value]="filiere">{{ filiere }}</option>
+            </select>
+            <div *ngIf="isFieldInvalid('filiere')" class="mt-1 text-sm text-red-600">
+              La filière est requise
+            </div>
+          </div>
+        </div>
+
+      <!-- Aperçu -->
+<div *ngIf="classe.nom || classe.niveau || classe.filiere" class="mt-6 border border-gray-200 rounded-lg bg-white px-4 py-3">
+  <h3 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wide">
+    Aperçu de la classe
+  </h3>
+  <ul class="text-sm text-gray-700 space-y-1">
+    <li><span class="font-medium text-gray-600">Nom :</span> {{ classe.nom || 'Non défini' }}</li>
+    <li><span class="font-medium text-gray-600">Niveau :</span> {{ classe.niveau || 'Non défini' }}</li>
+    <li><span class="font-medium text-gray-600">Filière :</span> {{ classe.filiere || 'Non définie' }}</li>
+  </ul>
+</div>
+
+        <!-- Boutons -->
+        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
+          <button
+            type="button"
+            (click)="onCancel()"
+            class="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50">
+            Annuler
+          </button>
+          
+          <div class="flex space-x-3">
+            <button
+              type="submit"
+            
+              [disabled]="!isFormValid() || isSubmitting"
+              class="px-4 py-2 text-green-700 border border-green-300 rounded hover:bg-green-50 disabled:opacity-50 disabled:cursor-not-allowed">
+             Créer la classe
+            </button>
+            
+             
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de confirmation -->
+  <div *ngIf="showConfirmModal" class="fixed inset-0 bg-white/50 bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Classe créée avec succès</h3>
+      <p class="text-gray-600 mb-4">
+        La classe <strong>{{ lastCreatedClasse?.nom }}</strong> a été créée.
+      </p>
+      <div class="flex justify-end space-x-3">
+        <button
+          (click)="closeConfirmModal()"
+          class="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50">
+          Fermer
+        </button>
+        <button
+          (click)="createAnother()"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Créer une autre
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

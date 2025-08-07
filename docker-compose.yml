@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build: .
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    container_name: angular-app

@@ -1,0 +1,94 @@
+<!-- <app-loading *ngIf="isLoading"></app-loading> -->
+<!-- Conteneur principal -->
+<div   class="flex flex-col h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+  <!-- Navbar (comme YouTube) -->
+  <header class="sticky top-0 z-50 flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+    <!-- Partie gauche -->
+    <div class="flex items-center space-x-4">
+      <!-- Bouton menu (mobile) -->
+      <button (click)="toggleSidebar()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 lg:hidden">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+      
+      <!-- Logo -->
+      <a href="#" class="flex items-center">
+        <img src="img\timeShool.webp" alt="Logo" class="h-8">
+      </a>
+    </div>
+
+    <!-- Barre de recherche (centre) -->
+    <div class="hidden md:flex flex-1 max-w-2xl mx-4">
+      <div class="relative w-full">
+        <input type="text" placeholder="Rechercher..." 
+          class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        <button class="absolute right-0 top-0 h-full px-4 bg-gray-200 dark:bg-gray-600 rounded-r-full border-l border-gray-300 dark:border-gray-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Partie droite -->
+    <div class="flex items-center space-x-3">
+      <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 md:hidden">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </button>
+      <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+        </svg>
+        <span *ngIf="notifications > 0" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+      </button>
+      <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+        <span>U</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar (comme YouTube) -->
+    <aside [class]="'fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-200 ease-in-out ' + 
+                    (sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0')"
+          [@sidebarAnimation]>
+      
+      <nav class="h-full overflow-y-auto py-4">
+       <app-sisbar/>
+      </nav>
+    </aside>
+
+    <!-- Overlay (mobile seulement) -->
+    <div *ngIf="sidebarOpen" (click)="toggleSidebar()"
+         class="fixed inset-0 z-30 bg-blue-500/20 bg-opacity-50 lg:hidden transition-opacity duration-200"></div>
+
+    <!-- Contenu principal -->
+    <main class="flex-1 overflow-y-auto p-4 lg:p-6 bg-white dark:bg-gray-900">
+       
+
+        @if (role == 'SUPER_ADMIN') {
+               <app-admingestion/>
+        } 
+
+         @if (role == 'ADMIN' ||role == 'USER' ) {
+              <router-outlet></router-outlet>
+        }
+
+          @if (role ==  null ) {
+             <div class=" fixed top-0 left-0 z-50 right-0 bottom-0 flex justify-center items-center">
+              <h1 class=" text-4xl font-bold"> Error 404</h1>
+             </div>
+        }
+
+
+        
+         
+    
+       
+    </main>
+  </div>
+</div>

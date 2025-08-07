@@ -1,0 +1,142 @@
+<div class="min-h-screen Tableau bg-white p-4 print:p-0">
+
+  <div *ngIf="isGeneratingPdf" class="spinner-overlay">
+    <div class="spinner"></div>
+    <p>Génération du PDF en cours...</p>
+  </div>
+
+  <!-- En-tête avec boutons d'action (masqué à l'impression) -->
+  <div class="mb-6 print:hidden">
+    <div class="flex items-center justify-between bg-white rounded-lg shadow-sm border p-4">
+      <div>
+        <h1 class="text-xl font-bold text-gray-800">Emploi du temps complet</h1>
+        <p *ngIf="selectedClasse" class="text-sm text-gray-600">
+          {{ selectedClasse.nom }} - {{ selectedClasse.filiere }} ({{ selectedClasse.niveau }})
+        </p>
+      </div>
+      
+      <div class="flex space-x-3">
+        <button (click)="retourGestion()" 
+                class="px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors">
+          ← Retour
+        </button>
+        <button (click)="exporterEmploi()" [disabled]="isGeneratingPdf" class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+          {{ isGeneratingPdf ? 'Génération en cours...' : '📄 Exporter en PDF' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message si aucune classe -->
+  <div *ngIf="!selectedClasse" class="bg-white rounded-lg shadow-sm border p-8 text-center">
+    <div class="text-gray-400 mb-4">
+      <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+    </div>
+    <h2 class="text-lg font-medium text-gray-600 mb-2">Aucune classe sélectionnée</h2>
+    <p class="text-gray-500 mb-4">Veuillez sélectionner une classe pour afficher son emploi du temps</p>
+    <button (click)="retourGestion()" 
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+      Sélectionner une classe
+    </button>
+  </div>
+
+  <div id="emploi-temps-printable" *ngIf="selectedClasse" class="emploi-temps-container Tableau bg-white font-serif text-black">
+    <!-- En-tête du document -->
+    <div class="flex justify-between w-full items-start text-xs">
+      <!-- Colonne gauche -->
+      <div class="text-center flex-1">
+        <div class="text-head">REPUBLIQUE DU CAMEROUN</div>
+        <div class="italic text-head">Paix - Travail - Patrie</div>
+        <div class="stars-divider text-head">**************</div>
+        <div class="text-head">MINISTERE DES ENSEIGNEMENTS SECONDAIRES</div>
+        <div class="stars-divider text-head">**************</div>
+        <div>DELEGATION REGIONALE POUR LE LITTORAL</div>
+        <div class="stars-divider text-head">**************</div>
+        <div>DELEGATION DEPARTEMENTALE POUR LE WOURI</div>
+        <div class="stars-divider text-head">**************</div>
+        <div class="font-bold text-head uppercase">{{etablissement?.nom}}</div>
+        <div><span class="mr-1">PO BOX:</span>{{etablissement?.codePostal}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tél: {{etablissement?.telephone}}</div>
+        <div class="stars-divider text-head">**************</div>
+      </div>
+
+      <!-- Logo central -->
+      <div class="flex-1 flex justify-center px-4">
+        <div class="w-55 h-46 border-gray-800 flex items-center justify-center">
+          <div class="text-center text-xs">
+            <div><img [src]=" apiUrl+etablissement?.logo || 'img\logoEcole.png'" alt="Armoiries du Cameroun" class="object-contain w-55 h-44"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne droite -->
+      <div class="text-center flex-1">
+        <div class="text-head">REPUBLIC OF CAMEROON</div>
+        <div class="italic text-head">Peace - Work - Fatherland</div>
+        <div class="stars-divider text-head">**************</div>
+        <div class="text-head">MINISTRY OF SECONDARY EDUCATION</div>
+        <div class="stars-divider">**************</div>
+        <div>REGIONAL DELEGATION FOR THE LITTORAL</div>
+        <div class="stars-divider text-head">**************</div>
+        <div>DIVISIONAL DELEGATION FOR THE WOURI</div>
+        <div class="stars-divider text-head">**************</div>
+        <div class="font-bold text-head uppercase">{{etablissement?.nomEn}}</div>
+        <div><span class="mr-1">PO BOX:</span>{{etablissement?.codePostal}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tél: {{etablissement?.telephone}}</div>
+        <div class="stars-divider text-head">**************</div>
+      </div>
+    </div>
+
+    <!-- Titre principal -->
+    <div class="text-center mb-3">
+      <div class="text-lg font-bold mb-2">ANNEE SCOLAIRE {{etablissement?.anneeScolaire}}</div>
+      <div class="flex  items-center   justify-center gap-4">
+        <div class="text-lg font-semibold "  >
+EMPLOI DU TEMPS DE LA CLASSE DE  <span class="text-lg ml-9   px-2 font-bold bg-black text-white py-1">{{ selectedClasse.nom || 'SIXIEME 1' }}</span>
+</div>
+        
+       
+      </div>
+    </div>
+
+    <!-- Tableau de l'emploi du temps -->
+    <table class="emploi-table">
+      <thead>
+        <tr>
+          <th class="corner-cell">
+            <div class="corner-top text-xs font-semibold">Jours→</div>
+            <div class="corner-bottom italic">Horaires ↓</div>
+          </th>
+          <th *ngFor="let jour of jours" colspan="2" class="day-header">
+            <div class="day-name">{{ getJourLabel(jour) }}</div>
+            <div class="day-subheader">
+              <div class="subheader-left">discipline</div>
+              <div class="subheader-right italic">Enseignant (e)</div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let horaire of horairesFixes" [ngClass]="{ 'ligne-vide': isLigneVide(horaire) }">
+          <td class="time-cell">{{ horaire.label }}</td>
+          <ng-container *ngFor="let jour of jours">
+            <td class="class-cell font-semibold italic">{{ getCelluleContent(horaire, jour).discipline || '' }}</td>
+            <td class="subject-cell">{{ getCelluleContent(horaire, jour).enseignant || '' }}</td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pied de page -->
+    <div class="footer-section">
+      <div class="date-line">
+        Fait à Douala, le ___________________
+      </div>
+      
+      <div class="signature-line">
+        <div class="signature-left font-semibold">Le Censeur</div>
+        <div class="signature-right text-right font-semibold">Le Proviseur</div>
+      </div>
+    </div>
+  </div>
+</div>

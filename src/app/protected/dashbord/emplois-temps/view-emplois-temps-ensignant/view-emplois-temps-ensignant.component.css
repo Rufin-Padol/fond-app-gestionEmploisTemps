@@ -1,0 +1,381 @@
+/* Styles pour l'emploi du temps - Reproduction exacte */
+
+
+#emploi-temps-printable{
+   
+  width: 100%;
+  max-width: 297 mm ;
+  height:  210 mm;
+  margin: 0 auto;
+  font-family: 'Times New Roman', serif;
+  font-size: 11px;
+}
+
+.emploi-temps-container {
+  min-width: 297mm; /* Format A4 */
+  min-height: 210mm;
+  margin: 0 auto;
+  background: white;
+ 
+}
+
+.text-head{
+    font-size: 10px;
+}
+
+.inner-shadow-text {
+  position: relative;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: rgb(0, 0, 0);
+}
+
+.containere {
+ display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 16px;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.inner-shadow-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  color: black;
+  filter: blur(2px);
+  clip-path: inset(0 0 2px 0);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  z-index: -1;
+  pointer-events: none;
+}
+/* Correction du formatage des étoiles dans l'en-tête */
+.stars-divider {
+  display: block;
+  width: 100%;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  margin: 1px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Tableau principal - largeur fixe, pas de responsive */
+.emploi-table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 0 auto;
+  border-collapse: collapse;
+  border: 3px solid #000;
+  font-family: 'Times New Roman', serif;
+  font-size: 11px;
+  background: white;
+}
+
+/* En-tête du tableau */
+.emploi-table thead th {
+  border: 2px solid #000;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+}
+
+/* Cellule coin supérieur gauche */
+.corner-cell {
+  width: 120px;
+  min-width: 120px;
+  height: 30px;
+  font-size: 12px;
+  position: relative;
+}
+
+.corner-top {
+  border-bottom: 2px solid #000;
+  padding: 4px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.corner-bottom {
+  padding: 4px;
+  height: 24px;
+   
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* En-têtes des jours */
+.day-header {
+  width: 200px;
+  min-width: 200px;
+}
+
+.day-name {
+  border-bottom: 2px solid #000;
+  padding: 1px 4px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.5;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.day-subheader {
+  display: flex;
+  height: 24px;
+}
+
+.subheader-left {
+  flex: 1;
+  border-right: 1px solid #000;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.subheader-right {
+  flex: 1;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* Corps du tableau */
+.emploi-table tbody td {
+  border: 2px solid #000;
+  text-align: center;
+  vertical-align: middle;
+  height: 24px;
+  padding: 0px  2px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Cellule horaire */
+.time-cell {
+  width: 120px;
+  min-width: 120px;
+  background-color: #f9f9f9;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Cellules classe et matière */
+.class-cell,
+.subject-cell {
+  width: 100px;
+  min-width: 100px;
+  font-size: 16px;
+}
+
+.ligne-vide{
+  background-color:  #f5f5f5;
+}
+
+
+/* Section du bas */
+.bottom-section {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  width: 91%;
+  max-width: 1200px;
+  /* margin-left: auto;
+  margin-right: auto; */
+}
+
+.info-box {
+  flex: 1;
+  border: 2px solid #000;
+  font-size: 14px;
+}
+
+.info-header {
+  border-bottom: 2px solid #000;
+  padding: 5px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #f5f5f5;
+  font-size: 13px;
+}
+
+.info-content {
+  padding: 6px 0px;
+  text-align: center;
+  min-height: 50px;
+    font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.row {
+  height: 25px;
+   padding: 3px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-bold {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Pied de page */
+.footer-section {
+  font-size: 13px;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.date-line {
+  text-align: right;
+  margin-bottom: 4px;
+}
+
+.signature-line {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.signature-left,
+.signature-right {
+  /* border: 1px solid #000; */
+  width: 50%;
+  text-decoration: underline;
+  font-style: italic;
+}
+
+/* Styles spécifiques pour l'impression */
+@media print {
+  /* Forcer l'affichage des bordures */
+  .emploi-table,
+  .emploi-table th,
+  .emploi-table td,
+  .info-box {
+    border: 1px solid #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .emploi-table {
+    border: 2px solid #000 !important;
+  }
+
+  .info-box {
+    border: 2px solid #000 !important;
+  }
+
+
+  .cycle-line {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 4px;
+  font-style: italic;
+}
+
+  /* Forcer les backgrounds */
+  .corner-cell,
+  .day-header,
+  .time-cell,
+  .info-header {
+    background-color: #f5f5f5 !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Bordures internes */
+  .corner-top {
+    border-bottom: 1px solid #000 !important;
+  }
+
+  .day-name {
+    border-bottom: 1px solid #000 !important;
+  }
+
+  .subheader-left {
+    border-right: 1px solid #000 !important;
+  }
+
+  .info-header {
+    border-bottom: 1px solid #000 !important;
+  }
+
+  /* Étoiles pour l'impression */
+  .stars-divider {
+    font-size: 10px !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Éviter les coupures de page */
+  .emploi-table {
+    page-break-inside: avoid !important;
+  }
+
+  /* Largeur fixe pour l'impression */
+  .emploi-table {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .bottom-section {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .footer-section {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+/* Styles pour les navigateurs WebKit (Chrome, Safari) */
+@media print and (-webkit-min-device-pixel-ratio: 0) {
+  .emploi-table th,
+  .emploi-table td {
+    border: 1px solid #000 !important;
+    background-clip: padding-box !important;
+  }
+}
+
+/* Styles pour Firefox */
+@-moz-document url-prefix() {
+  @media print {
+    .emploi-table th,
+    .emploi-table td {
+      border: 1px solid #000 !important;
+    }
+    
+    .corner-cell,
+    .day-header,
+    .time-cell,
+    .info-header {
+      background-color: #f5f5f5 !important;
+    }
+  }
+}

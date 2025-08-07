@@ -1,0 +1,25 @@
+export enum Jour {
+  LUNDI = 'LUNDI',
+  MARDI = 'MARDI',
+  MERCREDI = 'MERCREDI',
+  JEUDI = 'JEUDI',
+  VENDREDI = 'VENDREDI',
+  SAMEDI = 'SAMEDI',
+  DIMANCHE = 'DIMANCHE',
+}
+
+export enum TypeCours {
+  COURS = 'COURS',
+  TD = 'TD',
+  TP = 'TP',
+  EXAMEN = 'EXAMEN'
+}
+
+export enum CategorieMatiere {
+  GENERAL = 'ENSEIGNEMENT_GENERAL',
+  TECHNIQUE = 'ENSEIGNEMENT_TECHNIQUE',
+  PROFESSIONNEL = 'ENSEIGNEMENT_TECHNOLOGIQUE_ET_PROFESSIONNEL',
+  AUTRE = 'AUTRE'
+}
+
+ 

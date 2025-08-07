@@ -1,0 +1,229 @@
+<div class="bg-white rounded-xl shadow-sm p-6">
+  <!-- En-tête avec onglets -->
+  <div class="mb-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+      <!-- Onglets améliorés -->
+      <div class="flex border-b border-gray-200 relative">
+        <button 
+          (click)="activeTab = 'classes'"
+          [class]="activeTab === 'classes' ? 
+                  'border-b-2 border-emerald-600 text-emerald-600 font-medium bg-emerald-50/50' : 
+                  'text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50/50'"
+          class="px-6 py-3 text-sm font-medium focus:outline-none transition-all duration-300 rounded-t-lg relative overflow-hidden group">
+          <span class="relative z-10 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            Par Classe
+          </span>
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/0 via-emerald-400/10 to-emerald-400/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+        </button>
+        <button 
+          (click)="activeTab = 'enseignants'"
+          [class]="activeTab === 'enseignants' ? 
+                  'border-b-2 border-emerald-600 text-emerald-600 font-medium bg-emerald-50/50' : 
+                  'text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50/50'"
+          class="px-6 py-3 text-sm font-medium focus:outline-none transition-all duration-300 rounded-t-lg relative overflow-hidden group">
+          <span class="relative z-10 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            Par Enseignant
+          </span>
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/0 via-emerald-400/10 to-emerald-400/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+        </button>
+      </div>
+
+      <!-- Boutons d'actions améliorés -->
+      <div class="flex items-center gap-3">
+        <!-- Bouton reset stylisé -->
+        <button 
+          (click)="resetFiltres()"
+          class="text-xs text-emerald-600 hover:text-emerald-800 flex items-center transition-all duration-200 hover:bg-emerald-50 px-3 py-2 rounded-lg group">
+          <svg class="w-3 h-3 mr-1.5 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          Réinitialiser
+        </button>
+
+        <!-- Bouton créer avec dégradé -->
+         <button 
+          (click)="creerNouvelEmploiDuTemps()"
+          *ngIf="activeTab != 'enseignants'"
+          class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+          <svg class="-ml-0.5 mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Créer nouveau
+        </button>
+        
+      </div>
+    </div>
+
+    <!-- Filtres améliorés -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <!-- Filtre Année -->
+      <div class="group">
+        <label class="block text-xs font-medium text-gray-700 mb-2 group-hover:text-emerald-600 transition-colors duration-200">
+          <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          Année scolaire
+        </label>
+        <select [(ngModel)]="filtres.annee" 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 hover:border-emerald-300 bg-white hover:bg-emerald-50/30">
+          <option value="">Toutes les années</option>
+          <option *ngFor="let annee of annees" [value]="annee">{{annee}}</option>
+        </select>
+      </div>
+
+      <!-- Filtre Recherche -->
+      <div class="group">
+        <label class="block text-xs font-medium text-gray-700 mb-2 group-hover:text-emerald-600 transition-colors duration-200">
+          <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          Recherche
+        </label>
+        <input type="text" [(ngModel)]="filtres.recherche" 
+               placeholder="Rechercher..." 
+               class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 hover:border-emerald-300 bg-white hover:bg-emerald-50/30 placeholder-gray-400">
+      </div>
+
+      <!-- Filtre spécifique -->
+      <div class="group">
+        <label class="block text-xs font-medium text-gray-700 mb-2 group-hover:text-emerald-600 transition-colors duration-200">
+          <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+          </svg>
+          {{activeTab === 'classes' ? 'Filière' : 'Matière'}}
+        </label>
+        <select [ngModel]="currentFiltreValue"
+                (ngModelChange)="updateFiltre($event)"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 hover:border-emerald-300 bg-white hover:bg-emerald-50/30">
+          <option value="">Toutes les {{activeTab === 'classes' ? 'filières' : 'matières'}}</option>
+          <option *ngFor="let item of (activeTab === 'classes' ? filieres : matieres)" [value]="item">
+            {{item}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des emplois du temps -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Card Emploi du Temps améliorée -->
+    <div *ngFor="let emploi of getEmploisActifs()" 
+         class="emploi-card border border-gray-200 rounded-xl overflow-hidden   transition-all duration-300 hover:border-green-200       ">
+      
+      <!-- Illustration PDF améliorée -->
+      <div class="bg-gradient-to-br from-blue-50 via-blue-100 to-green-100 p-6 flex justify-center items-center relative overflow-hidden">
+        <!-- Effet de glow en arrière-plan -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-blue-400/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        
+        <div class="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-lg backdrop-blur-sm group-hover:bg-white group-hover:scale-110 transition-all duration-300">
+          <svg class="w-4 h-4 text-gray-500   group-hover:text-blue-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+        </div>
+        
+        <div class="text-center relative z-10">
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
+            <svg class="relative w-16 h-16 fill-blue-100 mx-auto group-hover:fill-blue-200 transition-all duration-300 group-hover:scale-110" 
+                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="blue" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+              <path d="M10 9H8"/>
+              <path d="M16 13H8"/>
+              <path d="M16 17H8"/>
+            </svg>
+          </div>
+          <span class="block mt-3 text-xs font-medium text-gray-500 group-hover:text-gray-700 transition-colors duration-300 tracking-wide">DOCUMENT PDF</span>
+        </div>
+      </div>
+
+      <!-- Corps de la card amélioré -->
+      <div class="p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300 line-clamp-1">
+          {{getCardTitle(emploi)}}
+        </h3>
+        
+        <div class="flex items-center text-sm text-gray-500 mb-4">
+          <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          {{activeTab === 'classes' ? '2023-2024' : 'Disponible'}}
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <p class="text-sm font-medium text-gray-800 mb-3">
+            {{getCardSubtitle(emploi)}}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span *ngIf="isClasseEmploi(emploi)" 
+                  class="filiere-badge inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white shadow-sm relative overflow-hidden">
+              <span class="relative z-10">{{emploi.classe.filiere}}</span>
+            </span>
+            <span *ngIf="!isClasseEmploi(emploi)" 
+                  class="matiere-badge inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white shadow-sm relative overflow-hidden">
+              <span  class="relative z-10">{{getEnseignantMatiere(emploi)}}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions améliorées -->
+
+
+      <div class="px-6 pb-6">
+ <!-- Bouton créer avec dégradé -->
+         <button (click)="viewEmploitemps(emploi)"
+        
+          class="w-full inline-flex justify-center items-center px-3 py-2 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+            
+
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6  -ml-0.5 mr-2 h-4 w-4 relative z-10">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+</svg>
+
+           
+          
+          
+          <!-- <svg class="-ml-0.5 mr-2 h-4 w-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg> -->
+        Avoir le PDF
+        </button>
+      
+         
+      </div>
+    </div>
+  </div>
+
+  <!-- Message si liste vide amélioré -->
+  <div *ngIf="getEmploisActifs().length === 0" class="text-center py-16">
+    <div class="relative">
+      <div class="absolute inset-0 bg-gradient-to-r from-red-400 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+      <svg class="relative mx-auto h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+    <h3 class="mt-6 text-xl font-medium text-gray-900">Aucun emploi du temps trouvé</h3>
+    <p class="mt-3 text-sm text-gray-500 max-w-md mx-auto leading-relaxed">
+      Aucun résultat ne correspond à vos critères de recherche.
+      Essayez d'ajuster les filtres ou de réinitialiser la recherche.
+    </p>
+    <button 
+      (click)="resetFiltres()"
+      class="mt-8 inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-lg text-white bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 transform hover:scale-105">
+      <svg class="-ml-0.5 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+      Réinitialiser les filtres
+    </button>
+  </div>
+</div>

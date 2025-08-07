@@ -1,0 +1,305 @@
+<!-- Sélection de classe -->
+<div class="bg-white rounded-lg shadow-sm border p-4 mb-6">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold text-gray-800">Sélection de la classe</h2>
+    <div class="flex space-x-2">
+      <!-- <button *ngIf="selectedClasse" 
+              (click)="ajouterCreneauxPredefinis()"
+              class="px-3 py-2 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors">
+        ⚡ Créneaux prédéfinis
+      </button> -->
+      <button *ngIf="selectedClasse && creneaux.length > 0" 
+              (click)="voirEmploiComplet()"
+              class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+        📅 <span class="hidden sm:inline">Voir emploi complet</span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="flex items-center space-x-4">
+    <div class="flex-1">
+      <select [(ngModel)]="selectedClasseId" (change)="onClasseChange()" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <option [ngValue]="null">Choisir une classe...</option>
+        <option *ngFor="let classe of classes" [ngValue]="classe.id">{{ classe.nom }} - {{ classe.filiere }} ({{ classe.niveau }})</option>
+      </select>
+    </div>
+    
+    <div *ngIf="selectedClasse" class="text-sm text-gray-600">
+      <span class="font-medium">{{ creneaux.length }}</span> créneaux programmés
+    </div>
+  </div>
+</div>
+
+<!-- Message si aucune classe sélectionnée -->
+<div *ngIf="!selectedClasse" class="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
+  <div class="text-blue-600 mb-2">
+    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h3M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+    </svg>
+  </div>
+  <h3 class="text-lg font-medium text-blue-900 mb-1">Sélectionnez une classe</h3>
+  <p class="text-blue-700">Choisissez la classe pour laquelle vous souhaitez créer ou modifier l'emploi du temps</p>
+</div>
+
+<!-- Formulaire de création de créneaux (visible seulement si classe sélectionnée) -->
+<div *ngIf="selectedClasse" class="bg-white rounded-lg shadow-sm border p-4 mb-6">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-lg font-semibold text-gray-800">
+      {{ selectedCreneau ? 'Modifier créneau' : 'Nouveau créneau' }}
+      <span class="text-sm font-normal text-gray-600">- {{ selectedClasse.nom }} {{ selectedClasse.filiere }}</span>
+    </h2>
+    <span *ngIf="selectedCreneau" class="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full">
+      Édition
+    </span>
+  </div>
+  
+  <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+    <!-- Ligne 1: Jour et Horaire -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">Jour *</label>
+        <select formControlName="jour" 
+                class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                [class.bg-gray-100]="!selectedJour">
+          <option value="">Choisir le jour...</option>
+          <option *ngFor="let jour of jours" [value]="jour">{{ getJourLabel(jour) }}</option>
+        </select>
+        <div *ngIf="!selectedJour && form.get('jour')?.touched" class="text-red-500 text-xs mt-1">
+          Sélectionnez d'abord un jour
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">
+          Horaire *
+          <span *ngIf="horairesDisponibles.length > 0" class="text-green-600">({{ horairesDisponibles.length }} disponibles)</span>
+        </label>
+        <select formControlName="horaireId" 
+                [disabled]="!selectedJour"
+                class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                [class.bg-gray-100]="!selectedJour">
+          <option value="">{{ !selectedJour ? 'Choisir le jour d\'abord' : 'Choisir l\'horaire...' }}</option>
+          <option *ngFor="let horaire of horairesDisponibles" [value]="horaire.id">
+            {{ horaire.label }}
+          </option>
+        </select>
+        <div *ngIf="selectedJour && horairesDisponibles.length === 0" class="text-orange-500 text-xs mt-1">
+          Aucun horaire disponible pour ce jour
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">Type</label>
+        <select formControlName="type" class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+          <option *ngFor="let type of typesCours" [value]="type">{{ getTypeLabel(type) }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Ligne 2: Matière, Enseignant, Salle -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+      <div >
+        <label class="block text-xs font-medium text-gray-700 mb-1">
+          Matière *
+          <span *ngIf="matieresDisponibles.length > 0" class="text-green-600">({{ matieresDisponibles.length }} disponibles)</span>
+        </label>
+        <select formControlName="matiereId" 
+                [disabled]="!selectedHoraire"
+                class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                [class.bg-gray-100]="!selectedHoraire">
+          <option value="">{{ !selectedHoraire ? 'Choisir l\'horaire d\'abord' : 'Choisir la matière...' }}</option>
+          <option *ngFor="let matiere of matieresDisponibles" [value]="matiere.id">
+            {{ matiere.nom }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">
+          Enseignant *
+          <span *ngIf="enseignantsDisponibles.length > 0" class="text-green-600">({{ enseignantsDisponibles.length }} disponibles)</span>
+        </label>
+        <select formControlName="enseignantId" 
+                [disabled]="!selectedMatiere"
+                class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                [class.bg-gray-100]="!selectedMatiere">
+          <option value="">{{ !selectedMatiere ? 'Choisir la matière d\'abord' : 'Choisir l\'enseignant...' }}</option>
+          <option *ngFor="let enseignant of enseignantsDisponibles" [value]="enseignant.id">
+            {{ enseignant.nomComplet }}f
+          </option>
+        </select>
+        <div *ngIf="selectedMatiere && enseignantsDisponibles.length === 0 && !loading" class="text-orange-500 text-xs mt-1">
+          Aucun enseignant disponible pour cette matière à cet horaire
+        </div>
+        <div *ngIf="loading" class="text-blue-500 text-xs mt-1">
+          🔍 Vérification des disponibilités...
+        </div>
+      </div>
+
+      <!-- <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">Salle *</label>
+        <select formControlName="salleId" 
+                [disabled]="!selectedEnseignant"
+                class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                [class.bg-gray-100]="!selectedEnseignant">
+          <option value="">{{ !selectedEnseignant ? 'Choisir l\'enseignant d\'abord' : 'Choisir la salle...' }}</option>
+          <option *ngFor="let salle of sallesDisponibles" [value]="salle.id">
+            {{ salle.numero }}
+          </option>
+        </select>
+      </div> -->
+    </div>
+
+    <!-- Boutons -->
+    <div class="flex justify-end space-x-2">
+      <button *ngIf="selectedCreneau" type="button" (click)="resetForm()" 
+              class="px-3 py-1.5 text-sm border border-gray-300 rounded text-gray-700 hover:bg-gray-50">
+        Annuler
+      </button>
+      <button type="submit" 
+              [disabled]="form.invalid || loading" 
+              class="px-4 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center">
+        <span *ngIf="loading" class="mr-2">⏳</span>
+        {{ selectedCreneau ? 'Modifier' : 'Ajouter' }}
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal de conflit de salle -->
+<div *ngIf="showSalleModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-md w-mx-4">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">🏫 Salle déjà occupée</h3>
+    
+    <div *ngIf="salleConflictInfo" class="mb-4">
+      <p class="text-sm text-gray-700 mb-2">
+        La salle <strong>{{ salleConflictInfo.salle.numero }}</strong> est déjà occupée par :
+      </p>
+      <ul class="list-disc list-inside text-sm text-gray-600 mb-4">
+        <li *ngFor="let classe of salleConflictInfo.classesOccupantes" class="text-orange-600">
+          {{ classe }}
+        </li>
+      </ul>
+      <p class="text-sm text-gray-700">
+        Souhaitez-vous partager cette salle avec {{ salleConflictInfo.classesOccupantes.length > 1 ? 'ces classes' : 'cette classe' }} ?
+      </p>
+    </div>
+
+    <div class="flex justify-end space-x-3">
+      <button (click)="confirmerPartageSalle(false)" 
+              class="px-4 py-2 text-sm border border-gray-300 rounded text-gray-700 hover:bg-gray-50">
+        Annuler
+      </button>
+      <button (click)="confirmerPartageSalle(true)" 
+              class="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
+        Partager la salle
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Message de conflit -->
+<div *ngIf="conflictMessage" class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+  <div class="flex">
+    <svg class="w-4 h-4 text-red-400 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+    </svg>
+    <p class="text-sm text-red-800">{{ conflictMessage }}</p>
+  </div>
+</div>
+
+<!-- Tableau emploi du temps (visible seulement si classe sélectionnée) -->
+<div *ngIf="selectedClasse" class="bg-white rounded-lg shadow-sm border overflow-hidden">
+  <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold text-gray-800">
+        Emploi du temps - {{ selectedClasse.nom }} {{ selectedClasse.filiere }}
+      </h2>
+      <span class="text-sm text-gray-600">{{ creneaux.length }} créneaux</span>
+    </div>
+  </div>
+
+  <div *ngIf="creneaux.length === 0" class="p-8 text-center text-gray-500">
+    <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+    </svg>
+    <p class="text-sm font-medium text-gray-600 mb-2">Aucun créneau programmé pour cette classe</p>
+    <p class="text-xs text-gray-500">Utilisez le formulaire ci-dessus pour ajouter des créneaux ou cliquez sur "Créneaux prédéfinis"</p>
+  </div>
+
+  <!-- Tableau groupé par horaires -->
+  <div *ngIf="creneaux.length > 0" class="overflow-x-auto">
+    <table class="w-full">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">
+            Horaires
+          </th>
+          <th *ngFor="let jour of jours" class="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-r">
+            {{ getJourLabel(jour) }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let horaire of getHorairesGroupes(); trackBy: trackByHoraire" class="hover:bg-gray-50">
+          <!-- Colonne horaire -->
+          <td class="px-3 py-2 text-sm font-medium text-gray-900 border-r bg-gray-50">
+            {{ horaire.heureDebut }} - {{ horaire.heureFin }}
+          </td>
+          
+          <!-- Colonnes jours -->
+          <td *ngFor="let jour of jours; trackBy: trackByJour" class="px-2 py-1 text-xs border-r align-top">
+            <div *ngFor="let creneau of getCreneauxForHoraireAndJour(horaire, jour); trackBy: trackByCreneau" 
+                 class="mb-1 p-1.5 rounded border-l-2 hover:shadow-sm cursor-pointer transition-all"
+                 [ngClass]="getCreneauColorClass(creneau.type)"
+                 (click)="editCreneau(creneau)">
+              
+              <div class="flex items-center justify-between">
+                <div class="flex-1 min-w-0">
+                  <p class="font-medium text-gray-900 truncate">{{ creneau.matiere.nom }}</p>
+                  <p class="text-gray-600 truncate">{{ creneau.enseignant.nomComplet }}</p>
+                  <!-- <p class="text-gray-500">{{ creneau.salle.numero }}</p> -->
+                  <span class="inline-block px-1 py-0.5 text-xs bg-gray-100 text-gray-700 rounded mt-1">
+                    {{ getTypeLabel(creneau.type) }}
+                  </span>
+                </div>
+                
+                <div class="flex flex-col space-y-1 ml-1">
+                  <button (click)="editCreneau(creneau); $event.stopPropagation()" 
+                          class="p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
+                          title="Modifier">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                  </button>
+                  <button (click)="deleteCreneau(creneau.id || 0); $event.stopPropagation()" 
+                          class="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors"
+                          title="Supprimer">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Bouton sauvegarde -->
+<!-- <div *ngIf="selectedClasse" class="mt-4 flex justify-between items-center">
+  <div class="text-sm text-gray-600">
+    <span *ngIf="creneaux.length === 0">Aucun créneau à sauvegarder</span>
+    <span *ngIf="creneaux.length > 0">{{ creneaux.length }} créneau(x) • Sauvegarde automatique</span>
+  </div>
+  
+  <button *ngIf="creneaux.length > 0" 
+          (click)="saveEmploiDuTemps()"
+          class="px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors">
+    💾 Sauvegarder maintenant
+  </button>
+</div> -->

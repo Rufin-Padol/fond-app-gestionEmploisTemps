@@ -1,0 +1,24 @@
+/* Styles pour les onglets */
+.tab-content {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Transition pour les onglets */
+nav button {
+  transition: all 0.2s ease;
+}
+
+nav button:hover {
+  transform: translateY(-1px);
+}

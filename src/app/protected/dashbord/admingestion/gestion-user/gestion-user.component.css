@@ -1,0 +1,135 @@
+.user-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+}
+
+.user-card .bg-gradient-to-br {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 35%, #e0f7fa 100%);
+}
+
+.user-card:hover .bg-gradient-to-br {
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 35%, #b2ebf2 100%);
+}
+
+/* Animation pour les badges */
+.inline-flex {
+  transition: all 0.2s ease-in-out;
+}
+
+.inline-flex:hover {
+  transform: scale(1.05);
+}
+
+/* Styles pour les messages de statut */
+.fixed.top-0 {
+  backdrop-filter: blur(10px);
+}
+
+/* Animation des boutons */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Styles pour les modals */
+.fixed.inset-0 {
+  backdrop-filter: blur(4px);
+}
+
+/* Animation d'entrée pour les cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Responsive design amélioré */
+@media (max-width: 640px) {
+  .user-card {
+    margin-bottom: 1rem;
+  }
+  
+  .grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Amélioration de l'accessibilité */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Styles pour les états de chargement */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Amélioration des transitions pour les formulaires */
+input, select, textarea {
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Styles pour les messages d'alerte */
+.border-l-4 {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

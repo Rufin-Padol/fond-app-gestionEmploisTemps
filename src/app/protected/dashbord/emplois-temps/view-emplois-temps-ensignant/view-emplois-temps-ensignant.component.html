@@ -1,0 +1,212 @@
+<div class="min-h-screen Tableau bg-white p-4 print:p-0">
+  <!-- Spinner de chargement -->
+<div *ngIf="isGeneratingPdf" class="spinner-overlay">
+  <div class="spinner"></div>
+  <p>Génération du PDF en cours...</p>
+</div>
+  <!-- En-tête avec boutons d'action (masqué à l'impression) -->
+  <div class="mb-6  min-w-[297mm] print:hidden">
+    <div class="flex items-center justify-between bg-white rounded-lg shadow-sm border p-4">
+      <div>
+        <h1 class="text-xl font-bold text-gray-800">Emploi du temps individuel de l'enseignant</h1>
+        <p *ngIf="selectedEnseignant" class="text-sm text-gray-600">
+          {{ selectedEnseignant.nomComplet }} - {{ selectedEnseignant.grade }}
+        </p>
+      </div>
+      
+      <div class="flex space-x-3">
+        <button (click)="retourGestion()" 
+                class="px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors">
+          ← Retour
+        </button>
+        <!-- <button (click)="exporterEmploi()"
+                class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+          🖨️ Imprimer
+        </button> -->
+          <button (click)="exporterEmploi()" [disabled]="isGeneratingPdf"  class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+  {{ isGeneratingPdf ? 'Génération en cours...' : '📄 Exporter en PDF' }}
+</button>
+         
+      </div>
+    </div>
+  </div>
+
+  <!-- Message si aucun enseignant -->
+  <div *ngIf="!selectedEnseignant" class="bg-white rounded-lg shadow-sm border p-8 text-center">
+    <div class="text-gray-400 mb-4">
+      <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+      </svg>
+    </div>
+    <h2 class="text-lg font-medium text-gray-600 mb-2">Aucun enseignant sélectionné</h2>
+    <p class="text-gray-500 mb-4">Veuillez sélectionner un enseignant pour afficher son emploi du temps</p>
+    <button (click)="retourGestion()" 
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+      Sélectionner un enseignant
+    </button>
+  </div>
+
+  <div id="emploi-temps-printable" *ngIf="selectedEnseignant && emploiData" #contentToExport class="   emploi-temps-container Tableau bg-white font-serif text-black">
+    <!-- En-tête du document -->
+    <div class="flex justify-between   w-full items-start text-xs">
+      <!-- Colonne gauche -->
+      <div class="text-center flex-1">
+        <div class="  text-head">REPUBLIQUE DU CAMEROUN</div>
+        <div class="italic text-head">Paix - Travail - Patrie</div>
+        <div class="stars-divider text-head">**************</div>
+        <div class="  text-head">MINISTERE DES ENSEIGNEMENTS SECONDAIRES</div>
+        <div class="stars-divider text-head">**************</div>
+        <div>DELEGATION REGIONALE POUR LE LITTORAL</div>
+        <div class="stars-divider text-head">**************</div>
+        <div>DELEGATION DEPARTEMENTALE POUR LE WOURI</div>
+        <div class="stars-divider text-head">**************</div>
+        <div class="font-bold text-head uppercase"> {{  etablissement.nom  }}</div>
+        <div> {{ etablissement.codePostal  }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tél: {{etablissement.telephone }}</div>
+        <div class="stars-divider text-head">**************</div>
+      </div>
+
+      <!-- Logo central -->
+      <div class="flex-1 flex justify-center px-4">
+        <div class="w-55 h-46   border-gray-800 flex items-center justify-center">
+          <div class="text-center text-xs">
+            <div><img  [src]=" apiUrl+etablissement.logo  || 'img\logoEcole.png'"  alt="{{etablissement.nom }}" class="object-contain  w-55 h-44 "></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne droite -->
+      <div class="text-center flex-1">
+        <div class="text-head">REPUBLIC OF CAMEROON</div>
+        <div class="italic text-head">Peace - Work - Fatherland</div>
+        <div class="stars-divider text-head">**************</div>
+        <div class="  text-head">MINISTRY OF SECONDARY EDUCATION</div>
+        <div class="stars-divider">**************</div>
+        <div>REGIONAL DELEGATION FOR THE LITTORAL</div>
+        <div class="stars-divider text-head">**************</div>
+        <div>DIVISIONAL DELEGATION FOR THE WOURI</div>
+        <div class="stars-divider text-head">**************</div>
+         <div class="font-bold text-head uppercase"> {{ etablissement.nomEn }}</div>
+        <div> {{ etablissement.codePostal }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tél: {{  etablissement.telephone }}</div>
+        <div class="stars-divider text-head">**************</div>
+      </div>
+    </div>
+
+    <!-- Titre principal -->
+    <div class="text-center mb-2">
+      <!-- <div class="text-base font-black mb-2">EMPLOI DU TEMPS INDIVIDUEL DE L'ENSEIGNANT/ TEACHER'S INDIVIDUAL TIME TABLE</div> -->
+   
+<div class="inner-shadow-text" data-text="EMPLOI DU TEMPS INDIVIDUEL DE L'ENSEIGNANT/ TEACHER'S INDIVIDUAL TIME TABLE">
+  EMPLOI DU TEMPS INDIVIDUEL DE L'ENSEIGNANT/ TEACHER'S INDIVIDUAL TIME TABLE
+</div>
+
+    </div>
+
+    <!-- Informations de l'enseignant -->
+    <div class="grid  grid-cols-3   gap-4 mb-4 text-xs">
+      <div class="space-y-1 col-span-2">
+        <div><span class="text-sm ">Nom de l'enseignant/Teacher's name :</span > <strong class="text-xl ml-10 uppercase">{{ selectedEnseignant.nomComplet }}</strong></div>
+        <div  class="text-sm"><span class="text-sm">Grade/Rank : <strong class="text-sm ml-2 mr-10 ">{{ selectedEnseignant.grade }}</strong> </span> diplôme le plus élevé/Highest diploma :<strong class="text-sm ml-2  ">{{ selectedEnseignant.diplome }}</strong>  </div>
+        <div class="text-sm"><span class="text-base">Ancienneté au/years spent in service on</span> : <span class="font-bold ml-2">{{ selectedEnseignant.anciennete }} ans</span></div>
+        <div class="text-sm"><span class="text-base">matricule :</span><strong class="text-sm ml-2 mr-10 ">{{ selectedEnseignant.matricule }}</strong> </div>
+      </div>
+      <div class="space-y-1 text-right">
+        <div class="text-sm"><span class=" ">Année scolaire/Academic year :</span> {{ emploiData.anneeScolaire }}</div>
+        <div class="text-sm"><span class=" ">Matière/Subjects :</span>  <strong class="text-sm ml-2  ">{{ getDisciplines() }}</strong></div>
+        <div class="text-sm"><span class=" ">Heures dues/ Hours due :</span>  <strong class="text-sm ml-2  ">{{ emploiData.statistiques?.heuresDue }}</strong></div>
+        <div class="text-sm"><span class=" ">Heures faites/Hours done :</span> <strong class="text-sm ml-2  ">{{ emploiData.statistiques?.heuresFaites }} </strong></div>
+        <div class="text-sm"><span class=" ">Telephone / Phone number :</span>  <strong class="text-sm ml-2  ">{{ selectedEnseignant.telephone }}</strong></div>
+      </div>
+    </div>
+
+    <!-- Tableau de l'emploi du temps -->
+    <table class="emploi-table">
+      <thead>
+        <tr>
+          <th class="corner-cell">
+            <div class="corner-top text-xs font-semibold">Jours/Days→</div>
+            <div class="corner-bottom italic">Horaires/Hours ↓</div>
+          </th>
+          <th *ngFor="let jour of jours" colspan="2" class="day-header">
+            <div class="day-name">{{ getJourLabel(jour) }}</div>
+            <div class="day-subheader">
+              <div class="subheader-left">Classe/Class</div>
+              <div class="subheader-right">Matière/Subject</div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let horaire of horairesFixes"  [ngClass]="{ 'ligne-vide': isLigneVide(horaire) }">
+          <td class="time-cell">{{ horaire.label }}</td>
+          <ng-container *ngFor="let jour of jours">
+            <td class="class-cell font-semibold italic">{{ getCelluleContent(horaire, jour).classe || '' }}</td>
+            <td class="subject-cell">{{ getCelluleContent(horaire, jour).matiere || '' }}</td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Section du bas avec les informations supplémentaires -->
+    <div class="bottom-section">
+      <!-- Classes enseignées -->
+      <!-- <div class="info-box">
+        <div class="info-header">
+          Classes enseignées / Classes taught
+        </div>
+       <div class="info-content text-sm leading-snug">
+  <div *ngIf="getClassesEnseigneesByCycle().cycle1.length > 0">
+     {{ getClassesEnseigneesByCycle().cycle1.join(', ') }}
+  </div>
+  <div *ngIf="getClassesEnseigneesByCycle().cycle2.length > 0">
+     {{ getClassesEnseigneesByCycle().cycle2.join(', ') }}
+  </div>
+</div>
+
+      </div> -->
+ <div class="info-box">
+    <div class="info-header">
+      Classes enseignées / Classes taught
+    </div>
+    <div class="info-content text-sm leading-snug text-center">
+      <div class="  border-b-2  row">
+        {{ getClassesEnseigneesByCycle().cycle1.join(' ; ') || '' }}
+      </div>
+      <div class=" w-full row">
+        {{ getClassesEnseigneesByCycle().cycle2.join(' ; ') || '' }}
+      </div>
+    </div>
+  </div>
+      <!-- Disciplines -->
+      <div class="info-box">
+        <div class="info-header">
+          Disciplines / Subjects
+        </div>
+        <div class="info-content uppercase">
+          {{ getDisciplines() }}
+        </div>
+      </div>
+
+      <!-- Nombre de périodes -->
+      <div class="info-box">
+        <div class="info-header">
+          Nbre de périodes / Numbers of periods
+        </div>
+        <div class="info-content text-base info-bold" style="font-size: 18px;">
+          {{emploiData.statistiques?.heuresFaites  }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Pied de page -->
+    <div class="footer-section">
+      <div class="date-line">
+        Fait à Douala, le ____________________________
+      </div>
+      
+      <div class="signature-line">
+        <div class="signature-left font-semibold">Le Censeur/ The Vice Principal</div>
+        <div class="signature-right text-right font-semibold">Le Proviseur/The Principal</div>
+      </div>
+    </div>
+  </div>
+</div>

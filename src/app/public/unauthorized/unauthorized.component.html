@@ -1,0 +1,129 @@
+  <div class="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
+      
+      <!-- Éléments animés à l'infini à l'intérieur -->
+      <div class="absolute inset-0 pointer-events-none">
+        <!-- Cercles flottants avec rotation infinie -->
+        <div class="absolute top-20 left-20 w-16 h-16 border-2 border-blue-500/30 rounded-full rotate-infinite"></div>
+        <div class="absolute top-40 right-32 w-12 h-12 border border-blue-400/20 rounded-full rotate-infinite" style="animation-direction: reverse; animation-duration: 12s;"></div>
+        <div class="absolute bottom-32 left-40 w-20 h-20 border-2 border-blue-600/25 rounded-full rotate-infinite" style="animation-duration: 15s;"></div>
+        
+        <!-- Points lumineux qui pulsent -->
+        <div class="absolute top-1/4 left-1/3 w-3 h-3 bg-blue-400 rounded-full scale-pulse"></div>
+        <div class="absolute top-2/3 right-1/4 w-2 h-2 bg-blue-500 rounded-full scale-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-1/4 left-1/4 w-4 h-4 bg-blue-300 rounded-full scale-pulse" style="animation-delay: 2s;"></div>
+        
+        <!-- Lignes qui glissent -->
+        <div class="absolute top-1/2 w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent slide-infinite"></div>
+        <div class="absolute top-1/3 w-full h-px bg-gradient-to-r from-transparent via-blue-400/20 to-transparent slide-infinite" style="animation-delay: 3s; animation-duration: 8s;"></div>
+      </div>
+
+      <!-- Contenu principal avec fond bleu foncé -->
+      <div class="bg-blue-500/30 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-8 max-w-lg w-full relative z-10 shadow">
+        
+        <!-- Logo/Icône de l'application (blanc-bleu) -->
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-white to-blue-100 rounded-xl mb-4 float-infinite pulse-glow">
+            <!-- Icône calendrier stylisée -->
+            <div class="relative">
+              <div class="w-10 h-10 border-2 border-blue-600 rounded-lg bg-white flex flex-col items-center justify-center">
+                <div class="w-6 h-1 bg-blue-600 rounded mb-1"></div>
+                <div class="w-4 h-1 bg-blue-500 rounded mb-1"></div>
+                <div class="w-5 h-1 bg-blue-400 rounded"></div>
+              </div>
+              <div class="absolute -top-1 left-1/2 transform -translate-x-1/2 w-4 h-2 bg-blue-600 rounded-t"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Titre 404 avec animation -->
+        <div class="text-center mb-6">
+          <div class="text-7xl sm:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-blue-400 mb-4 float-infinite">
+            404
+          </div>
+          <div class="relative">
+            <h1 class="text-2xl sm:text-3xl font-bold text-white mb-3">
+              Page Non Trouvée
+            </h1>
+            <!-- Ligne animée sous le titre -->
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-blue-600 slide-infinite" style="width: 60px;"></div>
+          </div>
+        </div>
+
+        <!-- Message avec éléments animés -->
+        <div class="text-center mb-8 relative">
+          <p class="text-blue-100 text-sm sm:text-base leading-relaxed px-2">
+            La page que vous recherchez n'existe pas ou vous n'avez pas l'autorisation d'y accéder dans le système de gestion d'emploi du temps.
+          </p>
+          
+          <!-- Éléments décoratifs animés à l'intérieur du message -->
+          <div class="absolute -top-2 -left-2 w-2 h-2 bg-blue-400 rounded-full scale-pulse"></div>
+          <div class="absolute -bottom-2 -right-2 w-2 h-2 bg-blue-500 rounded-full scale-pulse" style="animation-delay: 1s;"></div>
+        </div>
+
+        <!-- Zone avec éléments animés intérieurs -->
+        <div class="relative bg-blue-900/50 rounded-xl p-6 mb-8 border border-blue-700/30">
+          <!-- Éléments animés à l'intérieur de la zone -->
+          <div class="absolute top-2 right-2 w-3 h-3 border border-blue-400 rounded-full rotate-infinite"></div>
+          <div class="absolute bottom-2 left-2 w-2 h-2 bg-blue-400/50 rounded-full float-infinite"></div>
+          
+          <div class="text-center relative z-10">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-800/50 rounded-lg mb-3 scale-pulse">
+              <svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a1 1 0 011 1v9a1 1 0 01-1 1H5a1 1 0 01-1-1V8a1 1 0 011-1h3z"/>
+              </svg>
+            </div>
+            <p class="text-blue-200 text-sm">
+              Système de Gestion d'Emploi du Temps
+            </p>
+          </div>
+        </div>
+
+        <!-- Boutons avec animations -->
+        <div class="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+          
+          <!-- Bouton Retour -->
+          <button
+            (click)="goBack()"
+            class="w-full sm:w-auto px-6 py-3 bg-blue-800 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105 border border-blue-600 hover:border-blue-500 flex items-center justify-center group relative overflow-hidden">
+            
+            <!-- Effet de glissement à l'intérieur du bouton -->
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent slide-infinite opacity-0 group-hover:opacity-100"></div>
+            
+            <svg class="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span class="relative z-10">Retour</span>
+          </button>
+
+          <!-- Bouton Accueil -->
+          <button
+            (click)="goHome()"
+            class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center group relative overflow-hidden">
+            
+            <!-- Effet de glissement à l'intérieur du bouton -->
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent slide-infinite opacity-0 group-hover:opacity-100"></div>
+            
+            <svg class="w-4 h-4 mr-2 transition-transform group-hover:scale-110 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span class="relative z-10">Accueil</span>
+          </button>
+        </div>
+
+        <!-- Éléments animés dans le coin du conteneur -->
+        <div class="absolute top-4 left-4 w-1 h-1 bg-blue-400 rounded-full scale-pulse"></div>
+        <div class="absolute top-4 right-4 w-1 h-1 bg-blue-500 rounded-full scale-pulse" style="animation-delay: 0.5s;"></div>
+        <div class="absolute bottom-4 left-4 w-1 h-1 bg-blue-300 rounded-full scale-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-4 right-4 w-1 h-1 bg-blue-600 rounded-full scale-pulse" style="animation-delay: 1.5s;"></div>
+      </div>
+
+      <!-- Grille de fond subtile -->
+     <!-- Grille de fond subtile -->
+<div class="absolute inset-0 opacity-5">
+  <div 
+    class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fill-rule=%22evenodd%22%3E%3Cg%20fill=%22%233B82F6%22%20fill-opacity=%220.3%22%3E%3Ccircle%20cx=%2230%22%20cy=%2230%22%20r=%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]">
+  </div>
+</div>
+
+ </div>
+ 

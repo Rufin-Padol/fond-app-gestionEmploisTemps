@@ -1,0 +1,106 @@
+/* Styles personnalisés pour le composant classe */
+
+.classe-card {
+  transition: all 0.3s ease;
+}
+
+.classe-card:hover {
+  transform: translateY(-2px);
+}
+
+.filter-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.action-button {
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+}
+
+/* Animation pour les cartes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.classe-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Badge styles avec dégradés */
+.filiere-badge {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.niveau-badge {
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+}
+
+/* Effet de brillance sur les badges */
+.filiere-badge::before,
+.niveau-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.classe-card:hover .filiere-badge::before,
+.classe-card:hover .niveau-badge::before {
+  left: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .classe-card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Amélioration des transitions */
+.classe-card .text-gray-900 {
+  transition: color 0.3s ease;
+}
+
+.classe-card .text-gray-500 {
+  transition: color 0.3s ease;
+}
+
+/* Effet de glow sur l'icône */
+.classe-card:hover svg {
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
+}
+
+/* Animation des boutons */
+.action-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.action-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.action-button:hover::before {
+  left: 100%;
+}

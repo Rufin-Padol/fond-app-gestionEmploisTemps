@@ -1,0 +1,38 @@
+/* Styles spécifiques pour le composant new-enseignant */
+.checkbox-grid {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.preview-section {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1.5rem;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.success-message {
+  color: #059669;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

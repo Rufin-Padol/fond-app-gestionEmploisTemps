@@ -1,0 +1,478 @@
+<div class="min-h-screen bg-gray-50 p-6">
+  <!-- Breadcrumb -->
+  <nav class="mb-6">
+    <div class="flex items-center space-x-2 text-sm text-gray-600">
+      <a href="/dashboard" class="hover:text-gray-900">Dashboard</a>
+      <span>/</span>
+      <a href="/dashboard/professeurs" class="hover:text-gray-900">Enseignants</a>
+      <span>/</span>
+      <span class="text-gray-900">Nouvel enseignant</span>
+    </div>
+  </nav>
+
+  <!-- Titre -->
+  <div class="mb-10">
+    <h1 class="text-[20px] font-medium text-gray-700 leading-tight">
+      Créer un nouvel enseignant
+    </h1>
+    <p class="mt-1 text-[13px] text-gray-500">
+      Remplissez les informations pour ajouter un enseignant à l'établissement.
+    </p>
+  </div>
+
+  <!-- Formulaire -->
+  <div class="max-w-7xl mx-auto">
+    <div class="bg-white rounded-lg border border-gray-200 p-6">
+      
+
+      <div class="fixed top-0 left-0 right-0 z-50">
+
+   <!-- Messages -->
+      <div *ngIf="errorMessage" class="mb-4 p-4 z-50  fixed  top-0 left-0 right-0 bg-red-50 border border-red-200 rounded-lg">
+        <div class="flex items-center">
+          <svg class="w-5 h-5 text-red-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <p class="text-red-700 text-sm font-medium">{{ errorMessage }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div class="flex items-center">
+          <svg class="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <p class="text-green-700 text-sm font-medium">{{ successMessage }}</p>
+        </div>
+      </div>
+
+
+      </div>
+   
+      <!-- Loader -->
+      <div *ngIf="loading" class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div class="flex items-center">
+          <svg class="animate-spin w-5 h-5 text-blue-500 mr-3" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <p class="text-blue-700 text-sm">Chargement des données...</p>
+        </div>
+      </div>
+
+      <form [formGroup]="enseignantForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+        
+        <!-- Informations personnelles -->
+        <div class="mb-8">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Informations personnelles</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Matricule -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Matricule *
+              </label>
+              <input
+                type="text"
+                formControlName="matricule"
+                placeholder="Ex: ENS-2025-002"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                [class.border-red-300]="isFieldInvalid('matricule')"
+                [class.bg-red-50]="isFieldInvalid('matricule')">
+              <p *ngIf="isFieldInvalid('matricule')" class="mt-1 text-sm text-red-600">
+                {{ getFieldError('matricule') }}
+              </p>
+            </div>
+
+            <!-- Nom complet -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Nom complet *
+              </label>
+              <input
+                type="text"
+                formControlName="nomComplet"
+                placeholder="Ex: MBOUA Jean"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                [class.border-red-300]="isFieldInvalid('nomComplet')"
+                [class.bg-red-50]="isFieldInvalid('nomComplet')">
+              <p *ngIf="isFieldInvalid('nomComplet')" class="mt-1 text-sm text-red-600">
+                {{ getFieldError('nomComplet') }}
+              </p>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Email *
+              </label>
+              <input
+                type="email"
+                formControlName="email"
+                placeholder="Ex: jean.mboua@example.com"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                [class.border-red-300]="isFieldInvalid('email')"
+                [class.bg-red-50]="isFieldInvalid('email')">
+              <p *ngIf="isFieldInvalid('email')" class="mt-1 text-sm text-red-600">
+                {{ getFieldError('email') }}
+              </p>
+            </div>
+
+            <!-- Téléphone -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Téléphone
+              </label>
+              <input
+                type="tel"
+                formControlName="telephone"
+                placeholder="Ex: +237650789123"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                [class.border-red-300]="isFieldInvalid('telephone')"
+                [class.bg-red-50]="isFieldInvalid('telephone')">
+              <p *ngIf="isFieldInvalid('telephone')" class="mt-1 text-sm text-red-600">
+                {{ getFieldError('telephone') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Informations académiques -->
+        <div class="mb-8">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Informations académiques</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Diplôme -->
+                       <!-- Diplôme -->
+<div class="relative">
+  <label class="block text-sm font-medium text-gray-700 mb-2">Diplôme</label>
+  <input
+    type="text"
+    formControlName="diplome"
+    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+    (input)="filterDiplomes()"
+    (focus)="onDiplomeFocus()"
+    (blur)="onDiplomeBlur()"
+    placeholder="Sélectionner ou ajouter un diplôme"
+  >
+
+  <!-- Dropdown des suggestions -->
+  <div 
+    *ngIf="showDiplomeDropdown && (filteredDiplomes.length > 0 || showAddDiplomeButton)" 
+    class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 border border-gray-200 max-h-60 overflow-auto"
+  >
+    <div 
+      *ngFor="let diplome of filteredDiplomes"
+      class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+      (mousedown)="selectDiplome(diplome)"
+    >
+      {{ diplome }}
+    </div>
+    
+    <!-- Option d'ajout -->
+    <div 
+      *ngIf="showAddDiplomeButton"
+      class="px-4 py-2 text-blue-600 hover:bg-gray-100 cursor-pointer border-t border-gray-100"
+      (mousedown)="addNewDiplome($event)"
+    >
+      + Ajouter "{{ enseignantForm.get('diplome')?.value || '' }}"
+    </div>
+  </div>
+</div>
+
+            <!-- Grade -->
+            <!-- <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Grade</label>
+              <select
+                formControlName="grade"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200">
+                <option value="">Sélectionner un grade</option>
+                <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
+              </select>
+            </div> -->
+
+<div class="relative">
+  <label class="block text-sm font-medium text-gray-700 mb-2">Grade</label>
+  <input
+    type="text"
+    formControlName="grade"
+    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+    (input)="filterGrades()"
+    (focus)="onGradeFocus()"
+    (blur)="onGradeBlur()"
+  >
+
+  <!-- Dropdown des suggestions -->
+  <div 
+    *ngIf="showDropdown && (filteredGrades.length > 0 || showAddButton)" 
+    class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 border border-gray-200 max-h-60 overflow-auto"
+  >
+    <div 
+      *ngFor="let grade of filteredGrades"
+      class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+      (mousedown)="selectGrade(grade)"
+    >
+      {{ grade }}
+    </div>
+    
+    <!-- Option d'ajout -->
+    <div 
+      *ngIf="showAddButton"
+      class="px-4 py-2 text-blue-600 hover:bg-gray-100 cursor-pointer border-t border-gray-100"
+      (mousedown)="addNewGrade($event)"
+    >
+      + Ajouter "{{ enseignantForm.get('grade')?.value || '' }}"
+    </div>
+  </div>
+</div>
+
+            <!-- Ancienneté -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Ancienneté (en années)
+              </label>
+              <input
+                type="number"
+                formControlName="anciennete"
+                min="0"
+                max="50"
+                placeholder="Ex: 12"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                [class.border-red-300]="isFieldInvalid('anciennete')"
+                [class.bg-red-50]="isFieldInvalid('anciennete')">
+              <p *ngIf="isFieldInvalid('anciennete')" class="mt-1 text-sm text-red-600">
+                {{ getFieldError('anciennete') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Département -->
+        <div class="mb-8">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Affectation</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Département *
+              </label>
+              <select
+                formControlName="idDepartement"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                [class.border-red-300]="isFieldInvalid('idDepartement')"
+                [class.bg-red-50]="isFieldInvalid('idDepartement')">
+                <option [ngValue]="null">Sélectionner un département</option>
+                <option *ngFor="let departement of departements" [ngValue]="departement.id">
+                  {{ departement.nom }} ({{ departement.codeDepar }})
+                </option>
+              </select>
+              <p *ngIf="isFieldInvalid('idDepartement')" class="mt-1 text-sm text-red-600">
+                Le département est requis
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matières -->
+        <div class="mb-8">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Matières enseignées *</h2>
+          
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-4">
+            <div *ngFor="let matiere of matieres" class="flex items-center">
+              <input
+                type="checkbox"
+                [id]="'matiere-' + matiere.id"
+                [checked]="isMatiereSelected(matiere.id)"
+                (change)="onMatiereChange(matiere.id, $event)"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+              <label [for]="'matiere-' + matiere.id" class="ml-2 text-sm text-gray-700 cursor-pointer hover:text-gray-900">
+                {{ matiere.nom }}
+              </label>
+            </div>
+          </div>
+          
+          <div *ngIf="matieresIdsArray.length === 0 && enseignantForm.get('matieresIds')?.touched" 
+               class="mt-2 text-sm text-red-600">
+            Au moins une matière doit être sélectionnée
+          </div>
+          
+          <div class="mt-2 text-xs text-gray-500">
+            {{ matieresIdsArray.length }} matière(s) sélectionnée(s)
+          </div>
+        </div>
+
+        <!-- Disponibilités -->
+        <div class="mb-8">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-medium text-gray-900">Disponibilités</h2>
+            <button
+              type="button"
+              (click)="ajouterDisponibilite()"
+              class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              Ajouter une disponibilité
+            </button>
+          </div>
+          
+          <div class="space-y-3" formArrayName="disponibilites">
+            <div *ngFor="let disponibilite of disponibilitesArray.controls; let i = index" 
+                 [formGroupName]="i"
+                 class="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
+              
+              <!-- Jour -->
+              <div class="flex-1">
+                <label class="block text-xs font-medium text-gray-700 mb-1">Jour</label>
+                <select formControlName="jourSemaine" 
+                        class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                  <option *ngFor="let jour of jours" [value]="jour">{{ jour }}</option>
+                </select>
+              </div>
+              
+              <!-- Heure début -->
+              <div class="flex-1">
+                <label class="block text-xs font-medium text-gray-700 mb-1">Début</label>
+                <input type="time" formControlName="heureDebut" 
+                       class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+              </div>
+              
+              <!-- Heure fin -->
+              <div class="flex-1">
+                <label class="block text-xs font-medium text-gray-700 mb-1">Fin</label>
+                <input type="time" formControlName="heureFin" 
+                       class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+              </div>
+              
+              <!-- Bouton supprimer -->
+              <button type="button" (click)="supprimerDisponibilite(i)" 
+                      class="mt-5 p-1.5 text-red-600 hover:text-red-800 hover:bg-red-100 rounded transition-colors duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <p *ngIf="disponibilitesArray.length === 0" class="text-sm text-gray-500 italic mt-2">
+            Aucune disponibilité ajoutée. Les enseignants peuvent ajouter leurs créneaux horaires disponibles.
+          </p>
+        </div>
+
+        <!-- Aperçu -->
+        <div *ngIf="enseignantForm.get('nomComplet')?.value || enseignantForm.get('email')?.value" 
+             class="mb-8 border border-gray-200 rounded-lg bg-gray-50 p-4">
+          <h3 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wide">
+            Aperçu de l'enseignant
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="font-medium text-gray-600">Matricule :</span> 
+              {{ enseignantForm.get('matricule')?.value || 'Non défini' }}
+            </div>
+            <div>
+              <span class="font-medium text-gray-600">Nom :</span> 
+              {{ enseignantForm.get('nomComplet')?.value || 'Non défini' }}
+            </div>
+            <div>
+              <span class="font-medium text-gray-600">Email :</span> 
+              {{ enseignantForm.get('email')?.value || 'Non défini' }}
+            </div>
+            <div>
+              <span class="font-medium text-gray-600">Téléphone :</span> 
+              {{ enseignantForm.get('telephone')?.value || 'Non défini' }}
+            </div>
+            <div>
+              <span class="font-medium text-gray-600">Diplôme :</span> 
+              {{ enseignantForm.get('diplome')?.value || 'Non défini' }}
+            </div>
+            <div>
+              <span class="font-medium text-gray-600">Grade :</span> 
+              {{ enseignantForm.get('grade')?.value || 'Non défini' }}
+            </div>
+            <div>
+              <span class="font-medium text-gray-600">Ancienneté :</span> 
+              {{ enseignantForm.get('anciennete')?.value ? enseignantForm.get('anciennete')?.value + ' ans' : 'Non définie' }}
+            </div>
+            <div>
+              <span class="font-medium text-gray-600">Département :</span> 
+              {{ getDepartementSelectionne()?.nom || 'Non défini' }}
+            </div>
+            <div class="md:col-span-2">
+              <span class="font-medium text-gray-600">Matières :</span>
+              <div *ngIf="getSelectedMatieres().length === 0" class="text-gray-500 italic inline">
+                Aucune matière sélectionnée
+              </div>
+              <div *ngIf="getSelectedMatieres().length > 0" class="inline">
+                <span *ngFor="let matiere of getSelectedMatieres(); let last = last">
+                  {{ matiere.nom }}<span *ngIf="!last">, </span>
+                </span>
+              </div>
+            </div>
+            <div class="md:col-span-2" *ngIf="disponibilitesArray.length > 0">
+              <span class="font-medium text-gray-600">Disponibilités :</span>
+              <ul class="mt-1 space-y-1">
+                <li *ngFor="let dispo of disponibilitesArray.controls" class="text-sm">
+                  <span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                  {{ dispo.get('jourSemaine')?.value }} : 
+                  {{ dispo.get('heureDebut')?.value }} - {{ dispo.get('heureFin')?.value }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="flex justify-between items-center pt-6 border-t border-gray-200">
+          <button
+            type="button"
+            (click)="onCancel()"
+            class="px-6 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
+            Annuler
+          </button>
+          
+          <button
+            type="submit"
+            [disabled]="enseignantForm.invalid || isSubmitting"
+            class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
+            <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span *ngIf="isSubmitting">Création en cours...</span>
+            <span *ngIf="!isSubmitting">Créer l'enseignant</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de confirmation -->
+  <div *ngIf="showConfirmModal" class="fixed inset-0 bg-blue-500/20 bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 transform transition-all">
+      <div class="text-center">
+        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+          <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Enseignant créé avec succès</h3>
+        <p class="text-gray-600 mb-6">
+          L'enseignant <strong>{{ lastCreatedEnseignant?.nomComplet }}</strong> a été créé avec succès.
+        </p>
+        <div class="flex justify-center space-x-3">
+          <button
+            (click)="closeConfirmModal()"
+            class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
+            Retour à la liste
+          </button>
+          <button
+            (click)="createAnother()"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+            Créer un autre
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
