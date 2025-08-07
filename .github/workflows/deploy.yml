@@ -7,8 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
     steps:
     - name: Checkout code
@@ -25,59 +26,6 @@ jobs:
         echo "Node version: $(node --version)"
         echo "npm version: $(npm --version)"
 
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Verify Angular CLI version
-      run: |
-        npx ng version
-        echo "Angular project structure:"
-        ls -la src/
-
-    # - name: Build application
-    #   run: npm run build
-
-    # - name: Verify build output
-    #   run: |
-    #     echo "Build output:"
-    #     ls -la dist/
-    #     echo "Build size:"
-    #     du -sh dist/
-
-    # - name: Upload build artifacts
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: angular-build
-    #     path: dist/
-    #     retention-days: 1
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Transfer entire project to VPS
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        source: "."
-        target: "/home/mbemnova1/deploy/angular-app/"
-        strip_components: 0
-        debug: true
-
-    # - name: Verify downloaded artifacts
-    #   run: |
-    #     echo "Downloaded build files:"
-    #     ls -la dist/
-    #     find dist/ -name "*.js" -o -name "*.css" -o -name "*.html" | head -10
-
-    # Étape de debug ajoutée
     - name: Debug SSH Configuration
       run: |
         echo "=== Debug SSH Configuration ==="
@@ -102,46 +50,18 @@ jobs:
             ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} \
             "echo 'SSH connection successful'" || echo "SSH connection failed"
 
-    - name: Transfer files to VPS via SCP (with debug)
+    - name: Transfer entire project to VPS
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
-        source: "dist/emplois-temps-fond/*"
-        target: "/tmp/angular-build/"
-        strip_components: 2
-        debug: true  # Activation du mode debug
-
-    - name: Transfer Dockerfile
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        source: "Dockerfile"
+        source: "."
         target: "/home/mbemnova1/deploy/angular-app/"
+        strip_components: 0
+        debug: true
 
-    - name: Transfer docker-compose.yml
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        source: "docker-compose.yml"
-        target: "/home/mbemnova1/deploy/angular-app/"
-
-    - name: Transfer nginx.conf
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        source: "nginx.conf"
-        target: "/home/mbemnova1/deploy/angular-app/"
-
-
-    - name: Deploy on VPS
+    - name: Deploy on VPS (Build and Run)
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.VPS_HOST }}
@@ -152,19 +72,22 @@ jobs:
           
           echo "🚀 Démarrage du déploiement Angular..."
           
-          # Créer les répertoires nécessaires
-          mkdir -p /home/mbemnova1/deploy/angular-app
-          mkdir -p /tmp/angular-build
-          
           # Naviguer vers le répertoire de déploiement
           cd /home/mbemnova1/deploy/angular-app
           
-          # Vérifier les fichiers transférés
-          echo "📁 Fichiers Docker disponibles:"
-          ls -la
+          # Installer les dépendances
+          echo "📦 Installation des dépendances..."
+          npm ci
           
-          echo "📁 Build Angular disponible:"
-          ls -la /tmp/angular-build/
+          # Build de l'application
+          echo "🔨 Construction de l'application..."
+          npm run build
+          
+          # Vérifier que le build a réussi
+          if [ ! -d "dist" ]; then
+            echo "❌ Erreur: le dossier dist/ n'a pas été créé"
+            exit 1
+          fi
           
           # Arrêter et supprimer l'ancien container
           echo "📦 Arrêt de l'ancien container..."
@@ -175,35 +98,17 @@ jobs:
           echo "🧹 Nettoyage des anciennes images..."
           docker image prune -f
           
-          # Copier le dossier /tmp/angular-build/ DANS le dossier de build docker (où est Dockerfile.deploy)
-          mkdir -p ./tmp
-          rm -rf ./tmp/angular-build
-          cp -r /tmp/angular-build ./tmp/
-
-          # Modifier Dockerfile temporaire pour copier depuis ./tmp/angular-build/
+          # Créer un Dockerfile temporaire
           echo "FROM nginx:alpine" > Dockerfile.deploy
-          echo "" >> Dockerfile.deploy
           echo "RUN rm /etc/nginx/conf.d/default.conf" >> Dockerfile.deploy
-          echo "" >> Dockerfile.deploy
           echo "COPY nginx.conf /etc/nginx/conf.d/" >> Dockerfile.deploy
-          echo "" >> Dockerfile.deploy
-          echo "COPY tmp/angular-build/ /usr/share/nginx/html/" >> Dockerfile.deploy
-          echo "" >> Dockerfile.deploy
+          echo "COPY dist/ /usr/share/nginx/html/" >> Dockerfile.deploy
           echo "EXPOSE 80" >> Dockerfile.deploy
-          echo "" >> Dockerfile.deploy
           echo 'CMD ["nginx", "-g", "daemon off;"]' >> Dockerfile.deploy
-
-
-          # Build l'image docker depuis le contexte courant (qui contient tmp/angular-build)
-          docker build -f Dockerfile.deploy -t angular-app:latest .
-
-                      
-          # Build de la nouvelle image
-          echo "🔨 Build de la nouvelle image..."
-          docker build -f Dockerfile.deploy -t angular-app:latest .
           
-          # Nettoyer l'image temporaire
-          docker rm build-files 2>/dev/null || true
+          # Build de la nouvelle image
+          echo "🔨 Build de la nouvelle image Docker..."
+          docker build -f Dockerfile.deploy -t angular-app:latest .
           
           # Démarrer le nouveau container
           echo "🎯 Démarrage du nouveau container..."
@@ -228,5 +133,4 @@ jobs:
           fi
           
           # Nettoyer les fichiers temporaires
-          rm -rf /tmp/angular-build/*
           rm -f Dockerfile.deploy
