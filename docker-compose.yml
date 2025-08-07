@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   angular-app:
-    build: .
+    image: angular-app:latest
     ports:
       - "3000:80"
     restart: unless-stopped
