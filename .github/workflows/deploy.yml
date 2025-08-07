@@ -34,22 +34,22 @@ jobs:
         echo "Angular project structure:"
         ls -la src/
 
-    - name: Build application
-      run: npm run build
+    # - name: Build application
+    #   run: npm run build
 
-    - name: Verify build output
-      run: |
-        echo "Build output:"
-        ls -la dist/
-        echo "Build size:"
-        du -sh dist/
+    # - name: Verify build output
+    #   run: |
+    #     echo "Build output:"
+    #     ls -la dist/
+    #     echo "Build size:"
+    #     du -sh dist/
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: angular-build
-        path: dist/
-        retention-days: 1
+    # - name: Upload build artifacts
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: angular-build
+    #     path: dist/
+    #     retention-days: 1
 
   deploy:
     needs: build
@@ -60,11 +60,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Download build artifacts
-      uses: actions/download-artifact@v4
+    - name: Transfer entire project to VPS
+      uses: appleboy/scp-action@v0.1.7
       with:
-        name: angular-build
-        path: dist/
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        source: "."
+        target: "/home/mbemnova1/deploy/angular-app/"
+        strip_components: 0
+        debug: true
 
     - name: Verify downloaded artifacts
       run: |
