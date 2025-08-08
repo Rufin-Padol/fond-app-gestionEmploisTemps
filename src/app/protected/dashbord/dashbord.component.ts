@@ -15,6 +15,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
+import { TokenService } from '../../core/services/token.service';
  
 
 @Component({
@@ -47,7 +48,7 @@ export class DashbordComponent implements OnInit {
     document.body.style.overflow = this.sidebarOpen ? 'hidden' : 'auto';
   }
 
-      constructor(private loadingService: LoadingService,private authService :AuthService  ,private router: Router){}
+      constructor(private loadingService: LoadingService,private tokenService: TokenService ,private authService :AuthService  ,private router: Router){}
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -59,6 +60,8 @@ export class DashbordComponent implements OnInit {
   }
 
   ngOnInit() {
+
+      this.checkIfLoggedIn();
      this.getRoleUser();
      // Détection du chargement initial
     this.loadingService.isLoading$.subscribe(loading => {
@@ -147,5 +150,30 @@ export class DashbordComponent implements OnInit {
   //     this.loadingService.hide();
   //   }
   // }
+
+
+ private checkIfLoggedIn(): void {
+  const token = this.tokenService.getAccessToken(); // ← TokenService ici
+
+  // Si pas de token, redirige vers login
+  if (!token) {
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  // Sinon, on vérifie que le token est toujours valide
+  this.authService.getCurrentUser().subscribe({
+    next: (user) => {
+      this.authService.currentUser = user;
+      this.getRoleUser();
+    },
+    error: () => {
+      // Token invalide ou expiré → suppression et redirection
+      this.tokenService.clearTokens(); // ← nettoie les tokens
+      this.router.navigate(['/login']);
+    }
+  });
+}
+
 
 }

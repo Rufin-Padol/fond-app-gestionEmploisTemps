@@ -169,8 +169,8 @@ export class ListeClasseComponent {
     this.classeService.updateClasse(this.editingClasse.id, this.editingClasse)
       .pipe(
         catchError(error => {
-          console.error('Erreur lors de la sauvegarde:', error);
-          this.error = 'Erreur lors de la sauvegarde de la classe';
+          // console.error('Erreur lors de la sauvegarde:', error);
+          this.error =  error.message || 'Erreur lors de la sauvegarde de la classe';
           return of(null);
         }),
         finalize(() => this.isSaving = false)
@@ -183,7 +183,8 @@ export class ListeClasseComponent {
             this.classes[index] = { ...this.editingClasse! };
           }
           this.fermerEditModal();
-          console.log('Classe sauvegardée avec succès');
+          this.successMessage = result.message || 'Classe sauvegardée avec succès' ;
+          // console.log('Classe sauvegardée avec succès');
         }
       });
   }
@@ -231,7 +232,11 @@ export class ListeClasseComponent {
               this.error = 'Erreur lors du chargement  des emplois du temps des classes';
               return of(null);
             }),
-            finalize(() => this.loading = false)
+            finalize(() => {
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000);
+    })
           )
           .subscribe(classes => {
             if (classes) {

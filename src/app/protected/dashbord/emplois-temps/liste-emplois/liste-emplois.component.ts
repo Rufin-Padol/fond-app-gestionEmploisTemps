@@ -266,7 +266,11 @@ private isEnseignantDto(obj: any): obj is EnseignantDto {
             this.error = 'Erreur lors du chargement  des emplois du temps des classes';
             return of(null);
           }),
-          finalize(() => this.loading = false)
+          finalize(() => {
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000);
+    })
         )
         .subscribe(emplois => {
           if (emplois) {

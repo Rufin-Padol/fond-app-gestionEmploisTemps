@@ -21,6 +21,7 @@ export class LoginComponent {
 
   showPassword = false;
 
+    isLoading1 = false;
     isLoading = false;
      private minDisplayTime = 3000; // 2 secondes minimum
     private loadingStartTime!: number;
@@ -41,6 +42,9 @@ error:string |any;
     this.loadingService.isLoading$.subscribe(loading => {
       this.isLoading = loading;
     });
+
+    // Vérifie si déjà connecté
+  this.checkIfLoggedIn();
 
  // Gestion du chargement pendant la navigation
     this.router.events.subscribe(event => {
@@ -82,15 +86,17 @@ error:string |any;
  
 
  onSubmit() {
+
   if (this.loginForm.valid) {
     const { email, password } = this.loginForm.value;
+     this.isLoading1 = true; // 👈 Active le spinner
 
     this.authService.login({ username: email, password }).subscribe({
       next: (response :AuthResponse ) => {
         // Sauvegarder les tokens via le service
         this.tokenService.saveTokens(response);
         
-        
+        this.isLoading1 = false; // 👈 Désactive le spinner
           this.UserConnect();
         
            
@@ -98,10 +104,11 @@ error:string |any;
       },
       error: (err:any) => {
         this.error = err.error.message ;
-        setTimeout(()=>{
-           this.error= null;
-        },5000)
-        console.error('Login échoué :', err);
+        this.isLoading1 = false; // 👈 Désactive le spinner
+        // setTimeout(()=>{
+        //    this.error= null;
+        // },5000)
+        // console.error('Login échoué :', err);
         // Affiche une erreur utilisateur ici si tu veux (toast, message, etc.)
       }
     });
@@ -111,6 +118,7 @@ error:string |any;
 
 
 UserConnect(){
+
   this.authService.getCurrentUser().subscribe({
     next :(response :User)=>{
          console.log('get user   :', response);
@@ -138,4 +146,21 @@ UserConnect(){
   //   });
   // }
 
+
+  private checkIfLoggedIn(): void {
+  // Vérifie la présence du token d'accès en localStorage (ou via TokenService)
+  const token = this.tokenService.getAccessToken();
+  if (!token) return; // pas connecté, ne rien faire
+
+  // Tente de récupérer les infos utilisateur
+  this.authService.getCurrentUser().subscribe({
+    next: (user: User) => {
+      this.authService.currentUser = user;
+      this.router.navigate(['/dashboard']);
+    },
+    error: () => {
+      // Token invalide ou expiré : ne rien faire, laisser sur login
+    }
+  });
+}
 }

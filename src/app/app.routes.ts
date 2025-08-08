@@ -121,16 +121,25 @@ export const routes: Routes = [
           children:[
             {
               path: '',
-               component :ListeClasseComponent
+               loadComponent: () =>
+               import('./protected/dashbord/professeur/liste-professeur/liste-professeur.component').then((m) =>
+                  m.ListeProfesseurComponent
+            ),
             
             },
             {
               path: 'liste-professeur',
-              component :ListeClasseComponent
+               loadComponent: () =>
+               import('./protected/dashbord/professeur/liste-professeur/liste-professeur.component').then((m) =>
+                  m.ListeProfesseurComponent
+              ),
             },
             {
               path: 'new-professeur',
-               component :NewClasseComponent
+             loadComponent: () =>
+               import('./protected/dashbord/professeur/new-professeur/new-professeur.component').then((m) =>
+                  m.NewProfesseurComponent
+            ),
             }
           ]
       },

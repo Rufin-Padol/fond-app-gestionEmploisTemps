@@ -64,7 +64,7 @@ errorMessage:string|null =null;
   etablissements = ['Lycée Central', 'Collège Nord', 'École Technique Sud', 'Université Est'];
 
 
-  departements!: DepartementDto[] ;
+  departements: DepartementDto[] = [] ;
   // departements: DepartementDto[] = [
   //   {
   //     id: 1,
@@ -263,7 +263,7 @@ errorMessage:string|null =null;
     setTimeout(() => {
       this.loading = false;
       console.log('Départements chargés:', this.departements);
-    }, 500);
+    }, 3000);
 
     // Version avec service réel (à décommenter quand le service sera disponible)
     
@@ -274,7 +274,11 @@ errorMessage:string|null =null;
           this.error = 'Erreur lors du chargement des départements';
           return of([]);
         }),
-        finalize(() => this.loading = false)
+        finalize(() => {
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000);
+    })
       )
       .subscribe(departements => {
         if (departements) {

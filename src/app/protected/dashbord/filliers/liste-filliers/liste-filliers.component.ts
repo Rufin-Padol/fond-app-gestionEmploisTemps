@@ -61,7 +61,7 @@ loading: boolean = false;
 
   categories = ['GENERALE', 'TECHNIQUE', 'PROFESSIONNELLE', 'COMPLEMENTAIRE'];
 
-matieres!: MatiereDto[];
+matieres: MatiereDto[]  = [];
 
   // matieres: MatiereDto[] = [
   //   {
@@ -245,25 +245,28 @@ matieres!: MatiereDto[];
     setTimeout(() => {
       this.loading = false;
       console.log('Matières chargées:', this.matieres);
-    }, 500);
+    }, 3000);
 
     // Version avec service réel (à décommenter quand le service sera disponible)
- 
-    this.matiereService.getAllMatieres()
-      .pipe(
-        catchError(error => {
-          console.error('Erreur lors du chargement des matières:', error);
-          this.error = 'Erreur lors du chargement des matières';
-          return of([]);
-        }),
-        finalize(() => this.loading = false)
-      )
-      .subscribe(matieres => {
-        if (matieres) {
-          this.matieres = matieres;
-          console.log('Matières chargées:', this.matieres);
-        }
-      });
- 
+ this.matiereService.getAllMatieres()
+  .pipe(
+    catchError(error => {
+      console.error('Erreur lors du chargement des matières:', error);
+      this.error = 'Erreur lors du chargement des matières';
+      return of([]); // on retourne un tableau vide pour que le flux continue
+    }),
+    finalize(() => {
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000);
+    })
+  )
+  .subscribe(matieres => {
+    if (matieres) {
+      this.matieres = matieres;
+      console.log('Matières chargées:', this.matieres);
+    }
+  });
+
   }
 }

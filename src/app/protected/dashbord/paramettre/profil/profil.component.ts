@@ -11,6 +11,7 @@ import { EtablissementServiceUserService } from '../../../../core/services/etabl
  
 import { environment } from '../../../../core/environement/environment';
 import { AuthService } from '../../../../core/services/auth.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profil',
@@ -20,6 +21,7 @@ import { AuthService } from '../../../../core/services/auth.service';
   styleUrl: './profil.component.css'
 })
 export class ProfilComponent implements OnInit {
+  imageSrc: any;
   utilisateur: User | null = null;
   etablissement: EtablissementDto | null = null;
   editingUser: User | null = null;
@@ -60,11 +62,14 @@ export class ProfilComponent implements OnInit {
     private userService: UserServiceService,
     private etablissementService: EtablissementServiceUserService,
     private notificationService: NotificationService,
-    private authservice: AuthService
+    private authservice: AuthService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     this.loadUserProfile();
+
+    
   }
 
   ngOnDestroy(): void {
@@ -398,4 +403,17 @@ if( !this.utilisateur.id) return;
   onFileSelected(event: any): void {
     this.onLogoFileSelected(event);
   }
+
+
+
+onImageError(event: Event) {
+  const imgElement = event.target as HTMLImageElement;
+  if (!imgElement.src.includes('lycee.jpg')) {
+    imgElement.src = '\img\lycee.jpg';
+  }
+}
+
+
+
+   
 }

@@ -327,7 +327,11 @@ onDiplomeBlur() {
           console.error('Erreur lors du chargement des matières:', error);
           return of([]);
         }),
-        finalize(() => this.loading = false)
+        finalize(() => {
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000);
+    })
       )
       .subscribe(matieres => {
         this.matieres = matieres;
