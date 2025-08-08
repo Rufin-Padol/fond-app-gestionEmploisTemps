@@ -454,7 +454,7 @@ onDiplomeBlur() {
       grade: formValue.grade || undefined,
       anciennete: formValue.anciennete || undefined,
       idDepartement: formValue.idDepartement,
-      idEtablissement: 1, // Valeur fixe comme dans l'exemple
+      idEtablissement: this.authservice.getIdEtablessement(), // Valeur fixe comme dans l'exemple
       matieresIds: formValue.matieresIds, // Utiliser matieresIds au lieu de matieres
       disponibilites: disponibilitesFormatees
     };
