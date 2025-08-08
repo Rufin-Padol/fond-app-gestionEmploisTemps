@@ -64,41 +64,41 @@ export class NewFilliersComponent {
     this.loadingDepartements = true;
     
     // Données de démonstration - à remplacer par l'appel au service
-    setTimeout(() => {
-      this.departements = [
-        {
-          id: 1,
-          codeDepar: 'MATH',
-          nom: 'Mathématiques',
-          etablissement: { id: 1, nom: 'Lycée Central' }
-        },
-        {
-          id: 2,
-          codeDepar: 'PHYS',
-          nom: 'Sciences Physiques',
-          etablissement: { id: 1, nom: 'Lycée Central' }
-        },
-        {
-          id: 3,
-          codeDepar: 'LETT',
-          nom: 'Lettres Modernes',
-          etablissement: { id: 1, nom: 'Lycée Central' }
-        },
-        {
-          id: 4,
-          codeDepar: 'HIST',
-          nom: 'Histoire-Géographie',
-          etablissement: { id: 1, nom: 'Lycée Central' }
-        },
-        {
-          id: 5,
-          codeDepar: 'LANG',
-          nom: 'Langues Vivantes',
-          etablissement: { id: 1, nom: 'Lycée Central' }
-        }
-      ];
-      this.loadingDepartements = false;
-    }, 500);
+    // setTimeout(() => {
+    //   this.departements = [
+    //     {
+    //       id: 1,
+    //       codeDepar: 'MATH',
+    //       nom: 'Mathématiques',
+    //       etablissement: { id: 1, nom: 'Lycée Central' }
+    //     },
+    //     {
+    //       id: 2,
+    //       codeDepar: 'PHYS',
+    //       nom: 'Sciences Physiques',
+    //       etablissement: { id: 1, nom: 'Lycée Central' }
+    //     },
+    //     {
+    //       id: 3,
+    //       codeDepar: 'LETT',
+    //       nom: 'Lettres Modernes',
+    //       etablissement: { id: 1, nom: 'Lycée Central' }
+    //     },
+    //     {
+    //       id: 4,
+    //       codeDepar: 'HIST',
+    //       nom: 'Histoire-Géographie',
+    //       etablissement: { id: 1, nom: 'Lycée Central' }
+    //     },
+    //     {
+    //       id: 5,
+    //       codeDepar: 'LANG',
+    //       nom: 'Langues Vivantes',
+    //       etablissement: { id: 1, nom: 'Lycée Central' }
+    //     }
+    //   ];
+    //   this.loadingDepartements = false;
+    // }, 500);
 
     // Version avec service réel (à décommenter quand le service sera disponible)
     /*

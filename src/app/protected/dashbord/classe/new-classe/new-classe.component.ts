@@ -41,14 +41,12 @@ export class NewClasseComponent {
   //   'Terminale'
   // ];
   cycle=['cycle 1','cycle 2'];
+  
+filieres = [
+  'Commerciale',
+  'Industrielle'
+];
 
-  filieres = [
-    'Scientifique',
-    'Littéraire',
-    'Technique',
-    'Économique',
-    'Professionnelle'
-  ];
 
   constructor(private router: Router,private classeService: ClasseServiceService, private authservice: AuthService) {}
 
