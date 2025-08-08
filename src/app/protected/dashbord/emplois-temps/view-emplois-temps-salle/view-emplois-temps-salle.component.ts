@@ -529,32 +529,32 @@ async captureToPDF(): Promise<void> {
     this.error = null;
 
     // Charger les jours et horaires en parallèle
-    this.planningService.getAllJours()
+    this.planningService.getJoursParEtablissement(this.authservice.getIdEtablessement())
       .pipe(
         catchError(error => {
           console.error('Erreur lors du chargement des jours:', error);
-          // this.showErrorMessage('Erreur lors du chargement des jours');
+          
           return of([]);
         })
       )
       .subscribe(jours => {
         this.jours = jours;
-         this.trierJours(); 
+        this.trierJours()
         console.log('Jours chargés:', this.jours);
       });
 
-    this.planningService.getAllHoraires()
+    this.planningService.getHorairesParEtablissement(this.authservice.getIdEtablessement())
       .pipe(
         catchError(error => {
           console.error('Erreur lors du chargement des horaires:', error);
-          // this.showErrorMessage('Erreur lors du chargement des horaires');
+          
           return of([]);
         }),
         finalize(() => this.loading = false)
       )
       .subscribe(horaires => {
-        this.horairesFixes = horaires;
-         this.trierHoraires(); // ✅ Ajout ici
+        this.horairesFixes = horaires.sort((a, b) => (a.heureDebut || '').localeCompare(b.heureDebut || ''));
+       this.trierHoraires()
         console.log('Horaires chargés:', this.horairesFixes);
       });
   }

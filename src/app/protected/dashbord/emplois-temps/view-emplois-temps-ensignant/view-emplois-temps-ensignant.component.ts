@@ -509,31 +509,32 @@ get codePostalEtablissement(): string {
     this.error = null;
 
     // Charger les jours et horaires en parallèle
-    this.planningService.getAllJours()
+    this.planningService.getJoursParEtablissement(this.authService.getIdEtablessement())
       .pipe(
         catchError(error => {
           console.error('Erreur lors du chargement des jours:', error);
-          // this.showErrorMessage('Erreur lors du chargement des jours');
+          
           return of([]);
         })
       )
       .subscribe(jours => {
         this.jours = jours;
-         this.trierJours(); 
+        this.trierJours()
         console.log('Jours chargés:', this.jours);
       });
 
-    this.planningService.getAllHoraires()
+    this.planningService.getHorairesParEtablissement(this.authService.getIdEtablessement())
       .pipe(
         catchError(error => {
           console.error('Erreur lors du chargement des horaires:', error);
-          // this.showErrorMessage('Erreur lors du chargement des horaires');
+          
           return of([]);
         }),
         finalize(() => this.loading = false)
       )
       .subscribe(horaires => {
-        this.horairesFixes = horaires;
+        this.horairesFixes = horaires.sort((a, b) => (a.heureDebut || '').localeCompare(b.heureDebut || ''));
+       this.trierHoraires()
         console.log('Horaires chargés:', this.horairesFixes);
       });
   }
@@ -562,4 +563,29 @@ trierJours() {
     this.jours.forEach(j => console.log(j.jour));
 }
 
+
+
+  private trierHoraires(): void {
+  if (!this.horairesFixes || this.horairesFixes.length === 0) {
+    console.warn('Aucun horaire à trier');
+    return;
+  }
+
+  // Filtrer les horaires valides avec heureDebut définie
+  const horairesValid = this.horairesFixes.filter(h => h.heureDebut);
+
+  // Trier en ordre croissant sur heureDebut (ex: "08:00:00" => 8*60+0 = 480)
+  horairesValid.sort((a, b) => {
+    const [h1, m1] = a.heureDebut!.split(':').map(Number);
+    const [h2, m2] = b.heureDebut!.split(':').map(Number);
+    return (h1 * 60 + m1) - (h2 * 60 + m2);
+  });
+
+  // Debug log
+  console.log('🕒 Horaires triés :');
+  horairesValid.forEach(h => console.log(`→ ${h.heureDebut} - ${h.heureFin} (${h.label})`));
+
+  // Remplacer la liste d’origine triée
+  this.horairesFixes = horairesValid;
+}
 }
