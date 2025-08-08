@@ -229,7 +229,7 @@ onDiplomeBlur() {
     this.enseignantForm = this.fb.group({
       matricule: ['', [Validators.required, Validators.minLength(3)]],
       nomComplet: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: [''],
       telephone: ['', [Validators.pattern(/^[\d\s\-\+\(\)]+$/)]],
       diplome: [''],
       grade: [''],
