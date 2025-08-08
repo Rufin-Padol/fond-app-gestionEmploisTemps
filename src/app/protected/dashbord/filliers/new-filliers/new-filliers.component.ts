@@ -40,8 +40,8 @@ export class NewFilliersComponent {
   // Données de configuration
   categories = [
     { value: CategorieMatiere.GENERAL, label: 'Générale' },
-    { value: CategorieMatiere.TECHNIQUE, label: 'Technique' },
-    { value: CategorieMatiere.PROFESSIONNEL, label: 'Professionnelle' },
+    { value: CategorieMatiere.TECHNIQUE, label: 'Technologie et professionnel' },
+    { value: CategorieMatiere.PROFESSIONNEL, label: 'Complementaire' },
     { value: CategorieMatiere.AUTRE, label: 'autre' }
   ];
 
