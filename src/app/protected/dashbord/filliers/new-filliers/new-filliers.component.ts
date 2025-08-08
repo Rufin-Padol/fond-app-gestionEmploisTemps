@@ -101,7 +101,7 @@ export class NewFilliersComponent {
     // }, 500);
 
     // Version avec service réel (à décommenter quand le service sera disponible)
-    /*
+ 
     this.departementService.getAllDepartements().subscribe({
       next: (departements) => {
         this.departements = departements;
@@ -113,7 +113,7 @@ export class NewFilliersComponent {
         this.loadingDepartements = false;
       }
     });
-    */
+   
   }
 
   /**
