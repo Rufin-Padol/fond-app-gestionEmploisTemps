@@ -146,9 +146,13 @@ this.loadEtablissement();
     
     this.loading = true;
     this.error = null;
-
-    // Essayer de charger l'emploi du temps complet d'abord
-    this.emploiDuTempsService.getEmploiDuTempsClasse(this.selectedClasse.id)
+  const idEmpl = this.route.snapshot.queryParamMap.get('id_emploisTemps');
+if (!idEmpl) {
+  // idEmpl n'existe pas, on arrête ici ou gérer l'erreur
+  return;
+}
+// Si on arrive ici, idEmpl existe et on peut appeler le service
+this.emploiDuTempsService.getEmploiDuTempsClasse(parseInt(idEmpl))
       .pipe(
         catchError(error => {
           console.warn('Emploi du temps non trouvé, chargement des créneaux individuels:', error);

@@ -739,7 +739,7 @@ console.log("📤 Creneau envoyé :", JSON.stringify(creneau, null, 2));
     console.log('📅 Navigation vers emploi du temps complet pour:', this.selectedClasse);
     
     this.router.navigate(['/dashboard/emplois-du-temps/viewEmploisTempSalle'], {
-      queryParams: { id_emploisTemps: this.selectedClasse.id }
+      queryParams: { id_emploisTemps:  this.selectedClasse?.idEmploiDuTemps }
     });
   }
 
