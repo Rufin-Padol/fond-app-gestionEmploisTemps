@@ -42,7 +42,10 @@ export class ListeDepartementComponent {
   showEditModal: boolean = false;
   selectedDepartement: DepartementDto | null = null;
   editingDepartement: DepartementDto | null = null;
+   Departement: DepartementDto | null = null;
   isSaving: boolean = false;
+  showDeleteModal: boolean = false;
+  isDeleting: boolean = false;
 successMessage: string|null =null;
 errorMessage:string|null =null;
 
@@ -288,4 +291,66 @@ errorMessage:string|null =null;
       });
     
   }
+
+
+
+
+     confirmerSuppression(Departemen: DepartementDto): void {
+            this.Departement = Departemen;
+            this.showDeleteModal = true;
+          }
+  
+  
+    fermerDeleteModal(): void {
+      this.showDeleteModal = false;
+      this.Departement = null;
+    }
+  
+  
+  
+     supprimerclass(): void {
+       console.error('Erreur lors de la suppression de la Departement:' );
+      if (this.isDeleting || !this.Departement) return;
+  
+      this.isDeleting = true;
+      this.errorMessage = '';
+      this.successMessage = '';
+  
+      this.departementService.deleteDepartement(this.Departement.id!)
+        .pipe(
+          catchError(error => {
+            console.error('Erreur lors de la suppression de la Departement:', error);
+            this.errorMessage = 'Erreur lors de la suppression de la Departement. Veuillez réessayer.';
+             this.loadDepartements();
+            return of(null);
+          }),
+          finalize(() => {
+            this.isDeleting = false;
+             this.loadDepartements();
+            this.scheduleMessageClear();
+                  this.showDeleteModal = false;
+          })
+        )
+        .subscribe(response => {
+          if (response !== null) {
+            this.successMessage =  `classe ${this.Departement!.nom} supprimé avec succès !`;
+            
+           this.loadDepartements();
+            
+            this.fermerDeleteModal();
+          }
+        });
+        //  this.loadDepartements();
+        
+    }
+  
+  
+     private scheduleMessageClear(): void {
+      setTimeout(() => {
+              this.showDeleteModal = false;
+        this.errorMessage = '';
+        this.successMessage = '';
+      }, 5000);
+    }
+  
 }

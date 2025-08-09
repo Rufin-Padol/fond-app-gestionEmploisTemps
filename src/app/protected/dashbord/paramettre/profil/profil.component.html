@@ -347,7 +347,7 @@
     </div>
 
     <!-- Formulaire de modification -->
-    <div class="p-4 sm:p-6" *ngIf="editingEtablissement">
+    <!-- <div class="p-4 sm:p-6" *ngIf="editingEtablissement">
       <form class="space-y-4 sm:space-y-6" (ngSubmit)="sauvegarderEtablissement()" #etablissementForm="ngForm">
         <div class="space-y-4 sm:grid sm:grid-cols-1 md:grid-cols-2 sm:gap-4 sm:space-y-0">
           <div>
@@ -385,7 +385,116 @@
           </div>
         </div>
       </form>
+    </div> -->
+
+
+    <!-- Modal de modification établissement -->
+<div *ngIf="showEtablissementModal" class="fixed inset-0 bg-gray-600/10   overflow-y-auto h-full w-full z-50 flex items-start sm:items-center justify-center p-2 sm:p-4">
+  <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto transform transition-all duration-200 animate-in slide-in-from-bottom-4 sm:slide-in-from-bottom-0 sm:zoom-in-95">
+
+    <!-- En-tête -->
+    <div class="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+      <div class="flex items-center">
+        <div class="bg-green-100 p-1.5 sm:p-2 rounded-lg mr-2 sm:mr-3">
+          <svg class="w-4 h-4 sm:w-6 sm:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-semibold text-gray-900">Modifier l'établissement</h3>
+          <p class="text-xs sm:text-sm text-gray-500 hidden sm:block">Modifiez les informations de votre établissement</p>
+        </div>
+      </div>
+      <button (click)="fermerModalEtablissement()" class="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-md hover:bg-gray-100">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
     </div>
+
+    <!-- Formulaire -->
+    <div class="p-4 sm:p-6" *ngIf="editingEtablissement">
+      <form class="space-y-4 sm:space-y-6" (ngSubmit)="sauvegarderEtablissement()" #etablissementForm="ngForm">
+
+        <div class="space-y-4 sm:grid sm:grid-cols-1 md:grid-cols-2 sm:gap-4 sm:space-y-0">
+
+          <!-- Nom -->
+          <div>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Nom *</label>
+            <input type="text" [(ngModel)]="editingEtablissement.nom" name="nom" required class="w-full px-3 placeholder:text-gray-300 py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Nom de l'établissement" #nomEtabInput="ngModel">
+            <div *ngIf="nomEtabInput.invalid && nomEtabInput.touched" class="mt-1 text-xs text-red-600">
+              Le nom de l'établissement est obligatoire
+            </div>
+          </div>
+
+          <!-- Nom en anglais -->
+          <div>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Nom (anglais)</label>
+            <input type="text" [(ngModel)]="editingEtablissement.nomEn" name="nomEn" class="w-full placeholder:text-gray-300 px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Nom en anglais">
+          </div>
+
+          <!-- Année scolaire -->
+          <div>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Année scolaire *</label>
+            <input type="text" [(ngModel)]="editingEtablissement.anneeScolaire" name="anneeScolaire" required pattern="[0-9]{4}-[0-9]{4}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="2024-2025" #anneeInput="ngModel">
+            <div *ngIf="anneeInput.invalid && anneeInput.touched" class="mt-1 text-xs text-red-600">
+              <span *ngIf="anneeInput.errors?.['required']">L'année scolaire est obligatoire</span>
+              <span *ngIf="anneeInput.errors?.['pattern']">Format requis : YYYY-YYYY</span>
+            </div>
+          </div>
+
+           
+
+          <!-- Téléphone -->
+          <div>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+            <input type="text" [(ngModel)]="editingEtablissement.telephone" name="telephone" class="w-full px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="+33 1 23 45 67 89">
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" [(ngModel)]="editingEtablissement.email" name="email" class="w-full placeholder:text-gray-300 px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="contact@ecole.com">
+          </div>
+
+          <!-- Adresse -->
+          <div class="md:col-span-2">
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Adresse</label>
+            <input type="text" [(ngModel)]="editingEtablissement.adresse" name="adresse" class="w-full px-3 placeholder:text-gray-300 py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Adresse complète">
+          </div>
+
+          <!-- Ville -->
+          <div>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Ville</label>
+            <input type="text" [(ngModel)]="editingEtablissement.ville" name="ville" class="w-full px-3 py-2 placeholder:text-gray-300 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Paris">
+          </div>
+
+          <!-- Code postal -->
+          <div>
+            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Code postal</label>
+            <input type="text" [(ngModel)]="editingEtablissement.codePostal" name="codePostal" class="w-full placeholder:text-gray-300 px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="75000">
+          </div>
+
+         
+
+        </div>
+      </form>
+    </div>
+
+    <!-- Pied -->
+    <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 p-4 sm:p-6 border-t border-gray-200 bg-gray-50">
+      <button (click)="annulerModificationsEtablissement()" type="button" class="w-full sm:w-auto px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Annuler</button>
+      <button (click)="sauvegarderEtablissement()" [disabled]="isSaving" type="button" class="w-full sm:w-auto px-4 py-2 text-xs sm:text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+        <svg *ngIf="isSaving" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        {{isSaving ? 'Sauvegarde...' : 'Sauvegarder'}}
+      </button>
+    </div>
+
+  </div>
+</div>
 
     <!-- Pied du modal -->
     <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 p-4 sm:p-6 border-t border-gray-200 bg-gray-50">

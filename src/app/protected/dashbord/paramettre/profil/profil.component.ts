@@ -216,16 +216,28 @@ if (!this.utilisateur.id) return
 if (!this.etablissement.id) return;
     const updateSub = this.etablissementService.updateEtablissement(
       this.etablissement.id,
-      {
-        nom: this.editingEtablissement.nom,
-        anneeScolaire: this.editingEtablissement.anneeScolaire
-      }
+        {
+    nom: this.editingEtablissement.nom,
+    anneeScolaire: this.editingEtablissement.anneeScolaire,
+    
+    
+ 
+    telephone: this.editingEtablissement.telephone,
+    email: this.editingEtablissement.email,
+    adresse: this.editingEtablissement.adresse,
+    ville: this.editingEtablissement.ville,
+ 
+    codePostal: this.editingEtablissement.codePostal,
+    nomEn: this.editingEtablissement.nomEn,
+  
+   
+  }
     ).subscribe({
       next: (updatedEtablissement: EtablissementDto | null) => {
         if(updatedEtablissement?.code  == 409){
              this.error =   updatedEtablissement.message || 'error';
               this.isSaving = false;
-                 console.error('   la mise à jour de l\'établissement:', updatedEtablissement);
+                 console.log('   la mise à jour de l\'établissement:', updatedEtablissement);
              this.fermerModalEtablissement();
              return
         }

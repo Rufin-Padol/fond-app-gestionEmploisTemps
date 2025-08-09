@@ -21,9 +21,9 @@ export class NewFilliersComponent {
   matiere: Partial<MatiereDto> = {
     nom: '',
     code: '',
-    coefficient: undefined,
-    categorie: undefined,
-    idDepartement: undefined
+    // coefficient: undefined,
+    // categorie: undefined,
+    // idDepartement: undefined
   };
 
   // États
@@ -133,9 +133,9 @@ export class NewFilliersComponent {
   isFormValid(): boolean {
     return !!(
       this.matiere.nom?.trim() &&
-      this.matiere.code?.trim() &&
-      this.matiere.categorie &&
-      this.matiere.idDepartement
+      this.matiere.code?.trim() 
+      // this.matiere.categorie &&
+      // this.matiere.idDepartement
     );
   }
 
@@ -189,10 +189,8 @@ export class NewFilliersComponent {
 
     const matiereToCreate: Partial<MatiereDto> = {
       nom: this.matiere.nom!.trim(),
-      code: this.matiere.code!.trim().toUpperCase(),
-      coefficient: this.matiere.coefficient || undefined,
-      categorie: this.matiere.categorie!,
-      idDepartement: this.matiere.idDepartement!
+      code: this.matiere.code!.trim(),
+     
     };
 console.log('Matière à créer:', matiereToCreate);
     // Simulation d'appel API - à remplacer par l'appel au service réel
@@ -256,9 +254,7 @@ console.log('Matière à créer:', matiereToCreate);
     this.matiere = {
       nom: '',
       code: '',
-      coefficient: undefined,
-      categorie: undefined,
-      idDepartement: undefined
+      
     };
     this.touchedFields = {};
     this.formSubmitted = false;
@@ -308,10 +304,10 @@ console.log('Matière à créer:', matiereToCreate);
   private hasUnsavedChanges(): boolean {
     return !!(
       this.matiere.nom?.trim() || 
-      this.matiere.code?.trim() || 
-      this.matiere.categorie || 
-      this.matiere.idDepartement ||
-      this.matiere.coefficient
+      this.matiere.code?.trim() 
+      // this.matiere.categorie || 
+      // this.matiere.idDepartement ||
+      // this.matiere.coefficient
     );
   }
 

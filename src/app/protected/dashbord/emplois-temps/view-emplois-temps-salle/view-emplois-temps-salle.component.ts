@@ -189,9 +189,13 @@ this.emploiDuTempsService.getEmploiDuTempsClasse(parseInt(idEmpl))
     );
 
     if (creneau) {
+      let enseignantNom = creneau.enseignant?.nomComplet || '';
+    if (enseignantNom) {
+      enseignantNom = enseignantNom.trim().split(/\s+/)[0]; // Prend le premier mot
+    }
       return {
-        discipline: creneau.matiere?.nom || '',
-        enseignant: creneau.enseignant?.nomComplet || '',
+        discipline: creneau.matiere?.code || '',
+        enseignant: enseignantNom,
         creneau: creneau
       };
     }

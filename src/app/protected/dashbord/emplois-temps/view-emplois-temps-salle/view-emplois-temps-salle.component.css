@@ -161,18 +161,19 @@
   text-align: center;
   vertical-align: middle;
   height: 30px;
-  padding: 0px 2px;
+  padding: 0px 3px;
   font-size: 14px;
   line-height: 1.5;
 }
 
 /* Cellule horaire */
 .time-cell {
-  width: 120px;
-  min-width: 120px;
+  width: 100px;
+  min-width: 100px;
   background-color: #f9f9f9;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 13px;
+   padding: 3px 0;
 }
 
 /* Cellules classe et matière */
@@ -180,11 +181,13 @@
 .subject-cell {
   width: 100px;
   min-width: 100px;
-  font-size: 16px;
+ 
+  line-height: 1.5;
+  padding: 3px 0;
 }
 
 .ligne-vide {
-  background-color: #f5f5f5;
+  background-color: #b3b3b3;
 }
 
 /* Pied de page */

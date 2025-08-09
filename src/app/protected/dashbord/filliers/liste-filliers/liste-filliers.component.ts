@@ -41,8 +41,13 @@ loading: boolean = false;
   showDetailsModal: boolean = false;
   showEditModal: boolean = false;
   selectedMatiere: MatiereDto | null = null;
+  matiere: MatiereDto | null = null;
   editingMatiere: MatiereDto | null = null;
   isSaving: boolean = false;
+  showDeleteModal: boolean = false;
+  isDeleting: boolean = false;
+  errorMessage: string |null = null;
+  successMessage: string |null = null;
 
   constructor(private matiereService: MatiereServiceService ) {}
 
@@ -211,7 +216,7 @@ matieres: MatiereDto[]  = [];
           this.error = 'Erreur lors de la sauvegarde de la matière';
           return of(null);
         }),
-        finalize(() => this.isSaving = false)
+        finalize(() => {this.isSaving = false; this.scheduleMessageClear();})
       )
       .subscribe(result => {
         if (result) {
@@ -220,6 +225,7 @@ matieres: MatiereDto[]  = [];
           if (index !== -1) {
             this.matieres[index] = { ...this.editingMatiere! };
           }
+            this.successMessage =  `Matière ${this.matiere!.nom} modifier avec succès !`;
           this.fermerEditModal();
           console.log('Matière sauvegardée avec succès');
         }
@@ -252,7 +258,8 @@ matieres: MatiereDto[]  = [];
   .pipe(
     catchError(error => {
       console.error('Erreur lors du chargement des matières:', error);
-      this.error = 'Erreur lors du chargement des matières';
+        this.errorMessage = 'Erreur lors du chargement des matières. Veuillez réessayer.';
+      // this.error = 'Erreur lors du chargement des matières';
       return of([]); // on retourne un tableau vide pour que le flux continue
     }),
     finalize(() => {
@@ -268,5 +275,57 @@ matieres: MatiereDto[]  = [];
     }
   });
 
+  }
+
+    confirmerSuppression(matiere: MatiereDto): void {
+            this.matiere = matiere;
+            this.showDeleteModal = true;
+          }
+
+
+
+                  fermerDeleteModal(): void {
+    this.showDeleteModal = false;
+    this.matiere = null;
+  }
+
+
+
+   supprimerclass(): void {
+    if (this.isDeleting || !this.matiere) return;
+
+    this.isDeleting = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    this.matiereService.deleteMatiere(this.matiere.id!)
+      .pipe(
+        catchError(error => {
+          console.error('Erreur lors de la suppression de la matiere:', error);
+          this.errorMessage = 'Erreur lors de la suppression de la matiere. Veuillez réessayer.';
+          return of(null);
+        }),
+        finalize(() => {
+          this.isDeleting = false;
+          this.scheduleMessageClear();
+        })
+      )
+      .subscribe(response => {
+        if (response !== null) {
+          this.successMessage =  `matiere ${this.matiere!.nom} supprimé avec succès !`;
+          
+         this.loadMatieres();
+          
+          this.fermerDeleteModal();
+        }
+      });
+  }
+
+
+    private scheduleMessageClear(): void {
+    setTimeout(() => {
+      this.errorMessage = '';
+      this.successMessage = '';
+    }, 5000);
   }
 }

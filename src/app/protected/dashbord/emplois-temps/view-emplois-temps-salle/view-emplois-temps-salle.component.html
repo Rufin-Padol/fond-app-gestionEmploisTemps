@@ -118,10 +118,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let horaire of horairesFixes" [ngClass]="{ 'ligne-vide': isLigneVide(horaire) }">
-          <td class="time-cell">{{ horaire.label }}</td>
+          <td class="time-cell  ">{{ horaire.label }}</td>
           <ng-container *ngFor="let jour of jours">
-            <td class="class-cell font-semibold italic">{{ getCelluleContent(horaire, jour).discipline || '' }}</td>
-            <td class="subject-cell">{{ getCelluleContent(horaire, jour).enseignant || '' }}</td>
+            <td class="class-cell text-sm  font-semibold italic">{{ getCelluleContent(horaire, jour).discipline || '' }}</td>
+            <td class="subject-cell text-sm ">{{ getCelluleContent(horaire, jour).enseignant || '' }}</td>
           </ng-container>
         </tr>
       </tbody>
@@ -130,7 +130,7 @@
     <!-- Pied de page -->
     <div class="footer-section">
       <div class="date-line">
-        Fait à Douala, le ___________________
+        Fait à Mbanga, le ___________________
       </div>
       
       <div class="signature-line">
