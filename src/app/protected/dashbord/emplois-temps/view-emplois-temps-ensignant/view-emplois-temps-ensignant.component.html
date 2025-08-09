@@ -111,7 +111,7 @@
       </div>
       <div class="space-y-1 text-right">
         <div class="text-sm"><span class=" ">Année scolaire/Academic year :</span> {{ emploiData.anneeScolaire }}</div>
-        <div class="text-sm"><span class=" ">Matière/Subjects :</span>  <strong class="text-sm ml-2  ">{{ getDisciplines() }}</strong></div>
+        <div class="text-sm"><span class=" ">Matière/Subjects :</span>  <strong class="text-sm ml-2  ">{{ selectedEnseignant.departement.nom }}</strong></div>
         <div class="text-sm"><span class=" ">Heures dues/ Hours due :</span>  <strong class="text-sm ml-2  ">{{ emploiData.statistiques?.heuresDue }}</strong></div>
         <div class="text-sm"><span class=" ">Heures faites/Hours done :</span> <strong class="text-sm ml-2  ">{{ emploiData.statistiques?.heuresFaites }} </strong></div>
         <div class="text-sm"><span class=" ">Telephone / Phone number :</span>  <strong class="text-sm ml-2  ">{{ selectedEnseignant.telephone }}</strong></div>

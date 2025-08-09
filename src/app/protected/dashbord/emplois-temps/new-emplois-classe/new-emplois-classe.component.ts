@@ -142,7 +142,7 @@ export class NewEmploisClasseComponent {
       type: [TypeCours.COURS, Validators.required],
       matiereId: ['', Validators.required],
       enseignantId: ['', Validators.required],
-      salleId: [1],
+      
       classeId: [this.selectedClasseId, Validators.required],
     });
 
@@ -788,7 +788,7 @@ console.log("📤 Creneau envoyé :", JSON.stringify(creneau, null, 2));
         type: creneau.type,
         matiereId: creneau.matiere.id,
         enseignantId: creneau.enseignant.id,
-        salleId: creneau.salle.id,
+        // salleId: creneau.salle.id,
         classeId: this.selectedClasseId
     }, { emitEvent: false });
 
