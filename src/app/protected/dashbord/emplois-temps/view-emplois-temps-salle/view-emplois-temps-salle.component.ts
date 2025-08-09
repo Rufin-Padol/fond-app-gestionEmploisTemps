@@ -95,10 +95,11 @@ export class ViewEmploisTempsSalleComponent implements OnInit {
 
   ngOnInit(): void {
     // Récupérer l'ID de la classe depuis les paramètres
-    const classeId = this.route.snapshot.queryParamMap.get('id_emploisTemps');
+    const classeId = localStorage.getItem("idClasse");
     this.chargerConfiguration();
     if (classeId) {
       this.loadClasseById(parseInt(classeId));
+      
     } else {
       // Fallback: récupérer depuis le localStorage la dernière classe sélectionnée
       const lastSelectedClasseId = localStorage.getItem('lastSelectedClasseId');

@@ -16,7 +16,8 @@ export interface AuthRequest {
 })
 export class AuthService {
 
-private apiUrl = "http://62.169.29.140:8080";
+// private apiUrl = "http://62.169.29.140:8080";
+private apiUrl = "http://localhost:8080";
 
   constructor(private http: HttpClient) {}
 

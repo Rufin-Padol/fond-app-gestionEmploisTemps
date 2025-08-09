@@ -600,7 +600,7 @@ console.log('🔍 Vérification de l\'occupation de la salle...');
     const matiere = this.matieres.find(m => m.id == formValue.matiereId);
     const enseignant = this.enseignants.find(e => e.id == formValue.enseignantId);
     const salle = {
-      id: 1,
+      id: 11,
       capacite :30,
       type :"Salle de classe",
       numero: "S001"
