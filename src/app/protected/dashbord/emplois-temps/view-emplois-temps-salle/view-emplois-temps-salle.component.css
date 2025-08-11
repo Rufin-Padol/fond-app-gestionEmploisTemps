@@ -192,14 +192,14 @@
     /* border: 1px solid red; */
   width: 100px;
   min-width: 100px;
-   font-size: 12px;
+   font-size: 16px;
   line-height: 1.5;
   padding: 3px 0;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 .class-cell{
- font-size: 14px;
- text-transform: lowercase;
+ font-size: 13px;
+ text-transform: uppercase;
 }
 
 .ligne-vide {

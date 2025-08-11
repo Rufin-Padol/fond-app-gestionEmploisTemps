@@ -120,17 +120,17 @@
         <tr *ngFor="let horaire of horairesFixes" [ngClass]="{ 'ligne-vide': isLigneVide(horaire) }">
           <td class="time-cell  ">{{ horaire.label }}</td>
           <ng-container *ngFor="let jour of jours">
-            <td class="class-cell text-xs  font-semibold italic">{{ getCelluleContent(horaire, jour).discipline || '' }}</td>
+            <td class="class-cell text-xs   font-semibold italic">{{ getCelluleContent(horaire, jour).discipline || '' }}</td>
             <!-- <td class="subject-cell font-medium text-sm "> <span *ngIf="getCelluleContent(horaire, jour).enseignant" class="text-[6px] lowercase font-bold">prof</span> {{ getCelluleContent(horaire, jour).enseignant || '' }}</td> -->
    <td class="subject-cell font-medium text-sm">
-  <span *ngIf="getCelluleContent(horaire, jour)?.enseignant"
+  <!-- <span *ngIf="getCelluleContent(horaire, jour)?.enseignant"
         class="text-[6px] lowercase font-bold">
     prof
-  </span>
+  </span> -->
   {{
-    getCelluleContent(horaire, jour)?.enseignant && (getCelluleContent(horaire, jour)?.enseignant ?? '').length > 8
-      ? getCelluleContent(horaire, jour)?.enseignant?.substring(0, 8) + '-' +
-        getCelluleContent(horaire, jour)?.enseignant?.substring(8)
+    getCelluleContent(horaire, jour)?.enseignant && (getCelluleContent(horaire, jour)?.enseignant ?? '').length > 18
+      ? getCelluleContent(horaire, jour)?.enseignant?.substring(0, 18) + '-' +
+        getCelluleContent(horaire, jour)?.enseignant?.substring(18)
       : getCelluleContent(horaire, jour)?.enseignant || ''
   }}
 </td>

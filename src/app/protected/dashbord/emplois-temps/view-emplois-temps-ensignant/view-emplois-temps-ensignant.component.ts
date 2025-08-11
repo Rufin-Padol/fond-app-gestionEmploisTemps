@@ -228,7 +228,7 @@ getClassesEnseigneesByCycle(): { cycle1: string[], cycle2: string[] } {
   getDisciplines(): string {
     if (!this.emploiData) return '';
     if (!this.emploiData.matiere || this.emploiData.matiere.length === 0) return 'Aucune matière';
-    return this.emploiData.matiere.map(m => m.code).join(', ');
+    return this.emploiData.matiere.map(m => m.nom).join(', ');
   }
 
 
@@ -419,7 +419,7 @@ isLigneVide(horaire: HoraireDTO): boolean {
     const pdfHeight = 210;
     
     // Marges plus importantes pour Word
-    const margin = 10;
+    const margin = 6;
     const imgWidth = pdfWidth - (margin * 2);
     const imgHeight = pdfHeight - (margin * 2);
     

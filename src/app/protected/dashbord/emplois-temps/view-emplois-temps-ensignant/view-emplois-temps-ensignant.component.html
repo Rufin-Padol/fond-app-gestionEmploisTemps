@@ -5,7 +5,7 @@
   <p>Génération du PDF en cours...</p>
 </div>
   <!-- En-tête avec boutons d'action (masqué à l'impression) -->
-  <div class="mb-6  min-w-[297mm] print:hidden">
+  <div class="mb-6  min-w-[1200px] print:hidden">
     <div class="flex items-center justify-between bg-white rounded-lg shadow-sm border p-4">
       <div>
         <h1 class="text-xl font-bold text-gray-800">Emploi du temps individuel de l'enseignant</h1>
@@ -58,7 +58,7 @@
         <div class="stars-divider text-head">**************</div>
         <div>DELEGATION REGIONALE POUR LE LITTORAL</div>
         <div class="stars-divider text-head">**************</div>
-        <div>DELEGATION DEPARTEMENTALE POUR LE WOURI</div>
+        <div>DELEGATION DEPARTEMENTALE POUR LE MOUNGO</div>
         <div class="stars-divider text-head">**************</div>
         <div class="font-bold text-head uppercase"> {{  etablissement.nom  }}</div>
         <div> {{ etablissement.codePostal  }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tél: {{etablissement.telephone }}</div>
@@ -66,14 +66,21 @@
       </div>
 
       <!-- Logo central -->
-      <div class="flex-1 flex justify-center px-4">
+      <!-- <div class="flex-1 flex justify-center px-4">
         <div class="w-55 h-46   border-gray-800 flex items-center justify-center">
           <div class="text-center text-xs">
             <div><img     src="/img/lycee.jpg"    alt="{{etablissement.nom }}" class="object-contain  w-55 h-44 "></div>
           </div>
         </div>
+      </div> -->
+   <div class="flex-1 flex justify-center px-4">
+        <div class="w-70   h-48 border-gray-800 flex items-center justify-center">
+          <div class="text-center text-xs">
+            <div><img    src="/img/lycee.jpg"  alt="Armoiries du Cameroun" class="object w-[306px] h-44"></div>
+          </div>
+        </div>
       </div>
-
+      
       <!-- Colonne droite -->
       <div class="text-center flex-1">
         <div class="text-head">REPUBLIC OF CAMEROON</div>
@@ -83,7 +90,7 @@
         <div class="stars-divider">**************</div>
         <div>REGIONAL DELEGATION FOR THE LITTORAL</div>
         <div class="stars-divider text-head">**************</div>
-        <div>DIVISIONAL DELEGATION FOR THE WOURI</div>
+        <div>DIVISIONAL DELEGATION FOR THE MOUNGO</div>
         <div class="stars-divider text-head">**************</div>
          <div class="font-bold text-head uppercase"> {{ etablissement.nomEn }}</div>
         <div> {{ etablissement.codePostal }}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tél: {{  etablissement.telephone }}</div>
@@ -102,20 +109,41 @@
     </div>
 
     <!-- Informations de l'enseignant -->
-    <div class="grid  grid-cols-3   gap-4 mb-4 text-xs">
-      <div class="space-y-1 col-span-2">
+    <div class="grid  grid-cols-3     text-base  ">
+            <div class="  grid-cols-3 grid   col-span-3">
+        <div class="col-span-2"><span class=" col-span-2 ">Nom de l'enseignant/Teacher's name :</span > <strong class="text-2xl ml-14 uppercase">{{ selectedEnseignant.nomComplet }}</strong></div>
+         <div class="  col-span-1"><span class=" ">Année scolaire/Academic year :</span> {{ emploiData.anneeScolaire }}</div>
+      </div>
+
+            <div class="  grid-cols-3 grid   col-span-3">
+       <div  class="col-span-2"><span class=" ">Grade/Rank : <strong class="  ml-2 mr-14">{{ selectedEnseignant.grade }}</strong> </span> diplôme le plus élevé/Highest diploma :<strong class="  ml-10  ">{{ selectedEnseignant.diplome }}</strong>  </div>
+          <div class="col-span-1"><span class=" ">Matière/Subjects :</span>  <strong class="   ml-2  ">{{ selectedEnseignant.departement.nom }}</strong></div>
+      </div>
+
+        <div class="  grid-cols-3 grid   col-span-3">
+      <div class="col-span-1"><span class="text-base">Ancienneté au/years spent in service on</span> : <span class="font-bold ml-2">{{ selectedEnseignant.anciennete }} ans</span></div> 
+         <div class="col-span-1"><span class=" ">Heures dues/ Hours due :</span>  <strong class="  ml-2  ">{{ emploiData.statistiques?.heuresDue }}</strong></div>
+        <div class="col-span-1"><span class=" ">Heures faites/Hours done :</span> <strong class="  ml-2  ">{{ emploiData.statistiques?.heuresFaites }} </strong></div>
+      </div>
+
+       <div class="  grid-cols-3 grid   col-span-3">
+     <div class="col-span-1"><span class=" ">matricule :</span><strong class="  ml-2 mr-10 ">{{ selectedEnseignant.matricule }}</strong> </div>
+                <div class="col-span-2"><span class=" ">Telephone / Phone number :</span>  <strong class="  ml-2  ">{{ selectedEnseignant.telephone }}</strong></div>
+        
+      </div>
+      <!-- <div class="space-y-1 col-span-2">
         <div><span class="text-sm ">Nom de l'enseignant/Teacher's name :</span > <strong class="text-xl ml-10 uppercase">{{ selectedEnseignant.nomComplet }}</strong></div>
         <div  class="text-sm"><span class="text-sm">Grade/Rank : <strong class="text-sm ml-2 mr-10 ">{{ selectedEnseignant.grade }}</strong> </span> diplôme le plus élevé/Highest diploma :<strong class="text-sm ml-2  ">{{ selectedEnseignant.diplome }}</strong>  </div>
         <div class="text-sm"><span class="text-base">Ancienneté au/years spent in service on</span> : <span class="font-bold ml-2">{{ selectedEnseignant.anciennete }} ans</span></div>
         <div class="text-sm"><span class="text-base">matricule :</span><strong class="text-sm ml-2 mr-10 ">{{ selectedEnseignant.matricule }}</strong> </div>
       </div>
-      <div class="space-y-1 text-right">
+      <div class="space-y-1">
         <div class="text-sm"><span class=" ">Année scolaire/Academic year :</span> {{ emploiData.anneeScolaire }}</div>
         <div class="text-sm"><span class=" ">Matière/Subjects :</span>  <strong class="text-sm ml-2  ">{{ selectedEnseignant.departement.nom }}</strong></div>
         <div class="text-sm"><span class=" ">Heures dues/ Hours due :</span>  <strong class="text-sm ml-2  ">{{ emploiData.statistiques?.heuresDue }}</strong></div>
         <div class="text-sm"><span class=" ">Heures faites/Hours done :</span> <strong class="text-sm ml-2  ">{{ emploiData.statistiques?.heuresFaites }} </strong></div>
         <div class="text-sm"><span class=" ">Telephone / Phone number :</span>  <strong class="text-sm ml-2  ">{{ selectedEnseignant.telephone }}</strong></div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Tableau de l'emploi du temps -->
@@ -140,6 +168,7 @@
           <td class="time-cell">{{ horaire.label }}</td>
           <ng-container *ngFor="let jour of jours">
             <td class="class-cell font-semibold italic">{{ getCelluleContent(horaire, jour).classe || '' }}</td>
+            <!-- <td class="class-cell font-semibold italic"> dddkzwwwwwwwww</td> -->
             <td class="subject-cell">{{ getCelluleContent(horaire, jour).matiere || '' }}</td>
           </ng-container>
         </tr>
