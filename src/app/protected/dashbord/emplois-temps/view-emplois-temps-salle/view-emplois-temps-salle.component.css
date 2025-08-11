@@ -1,12 +1,14 @@
 /* Styles pour l'emploi du temps - Reproduction exacte */
 
 #emploi-temps-printable {
+  /* border: 1px solid red; */
   width: 100%;
-  max-width: 297mm;
+  min-width:1200px ;
+  /* max-width: 297mm; */
   height: 210mm;
   margin: 0 auto;
   font-family: 'Times New Roman', serif;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .emploi-temps-container {
@@ -17,7 +19,8 @@
 }
 
 .text-head {
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 600px;
 }
 
 .spinner-overlay {
@@ -60,6 +63,7 @@
   margin: 1px 0;
   overflow: hidden;
   white-space: nowrap;
+  font-weight: 600;
 }
 
 /* Tableau principal - largeur fixe, pas de responsive */
@@ -70,7 +74,7 @@
   border-collapse: collapse;
   border: 3px solid #000;
   font-family: 'Times New Roman', serif;
-  font-size: 11px;
+  font-size: 12px;
   background: white;
 }
 
@@ -104,86 +108,98 @@
 }
 
 .corner-bottom {
+  /* border: 1px solid red; */
   padding: 4px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 /* En-têtes des jours */
 .day-header {
   width: 200px;
   min-width: 200px;
+  
 }
 
 .day-name {
-  border-bottom: 2px solid #000;
-  padding: 1px 4px;
+  border-bottom: 2px solid #000000;
+  padding: 0px 4px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1.5;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: bold;
 }
 
 .day-subheader {
+  
   display: flex;
+   /* font-size: 17px; */
   height: 24px;
 }
 
 .subheader-left {
   flex: 1;
-  border-right: 2px solid #000;
-  padding: 3px;
+  border-right: 2px solid #000000;
+  padding: 0 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .subheader-right {
-  
+    /* border: 1px solid red; */
   flex: 1;
-  padding: 3px;
+  padding:0 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 /* Corps du tableau */
 .emploi-table tbody td {
-  border: 2px solid #000;
+  border: 2px solid #000000;
   text-align: center;
   vertical-align: middle;
-  height: 30px;
+  height: 36px;
   padding: 0px 3px;
-  font-size: 14px;
+  /* font-size: 13px; */
   line-height: 1.5;
 }
 
 /* Cellule horaire */
 .time-cell {
+    /* border: 1px solid red; */
   width: 100px;
   min-width: 100px;
   background-color: #f9f9f9;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 16px;
    padding: 3px 0;
 }
 
 /* Cellules classe et matière */
 .class-cell,
 .subject-cell {
+    /* border: 1px solid red; */
   width: 100px;
   min-width: 100px;
- 
+   font-size: 12px;
   line-height: 1.5;
   padding: 3px 0;
+  text-transform: uppercase;
+}
+.class-cell{
+ font-size: 14px;
+ text-transform: lowercase;
 }
 
 .ligne-vide {
@@ -192,7 +208,8 @@
 
 /* Pied de page */
 .footer-section {
-  font-size: 13px;
+   /* border: 1px solid red; */
+  font-size: 14px;
   margin-top: 30px;
   width: 100%;
   max-width: 1200px;
@@ -201,14 +218,16 @@
 }
 
 .date-line {
+   /* border: 1px solid red; */
   text-align: right;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .signature-line {
+   /* border: 1px solid red; */
   display: flex;
   justify-content: space-between;
-  padding-bottom: 20px;
+  padding-bottom: 80px;
 }
 
 .signature-left,
@@ -266,12 +285,12 @@
   }
 
   /* Étoiles pour l'impression */
-  .stars-divider {
-    font-size: 10px !important;
+  /* .stars-divider {
+    font-size: 11px !important;
     letter-spacing: 0.5px !important;
     margin: 0 !important;
     padding: 0 !important;
-  }
+  } */
 
   /* Éviter les coupures de page */
   .emploi-table {
@@ -282,11 +301,13 @@
   .emploi-table {
     width: 100% !important;
     max-width: none !important;
+    margin: 0 auto;
   }
 
   .footer-section {
     width: 100% !important;
     max-width: none !important;
+     margin: 0 auto;
   }
 }
 

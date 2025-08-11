@@ -6,7 +6,7 @@
   </div>
 
   <!-- En-tête avec boutons d'action (masqué à l'impression) -->
-  <div class="mb-6 print:hidden">
+  <div class="mb-6 min-w-[1200px] print:hidden">
     <div class="flex items-center justify-between bg-white rounded-lg shadow-sm border p-4">
       <div>
         <h1 class="text-xl font-bold text-gray-800">Emploi du temps complet</h1>
@@ -44,9 +44,9 @@
 
   <div id="emploi-temps-printable" *ngIf="selectedClasse" class="emploi-temps-container Tableau bg-white font-serif text-black">
     <!-- En-tête du document -->
-    <div class="flex justify-between w-full items-start text-xs">
+    <div class="flex justify-between font-medium w-full items-start text-[13px]">
       <!-- Colonne gauche -->
-      <div class="text-center flex-1">
+      <div class="text-center font-medium  flex-1">
         <div class="text-head">REPUBLIQUE DU CAMEROUN</div>
         <div class="italic text-head">Paix - Travail - Patrie</div>
         <div class="stars-divider text-head">**************</div>
@@ -54,7 +54,7 @@
         <div class="stars-divider text-head">**************</div>
         <div>DELEGATION REGIONALE POUR LE LITTORAL</div>
         <div class="stars-divider text-head">**************</div>
-        <div>DELEGATION DEPARTEMENTALE POUR LE WOURI</div>
+        <div>DELEGATION DEPARTEMENTALE POUR LE MOUNGO</div>
         <div class="stars-divider text-head">**************</div>
         <div class="font-bold text-head uppercase">{{etablissement?.nom}}</div>
         <div><span class="mr-1">PO BOX:</span>{{etablissement?.codePostal}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tél: {{etablissement?.telephone}}</div>
@@ -63,9 +63,9 @@
 
       <!-- Logo central -->
       <div class="flex-1 flex justify-center px-4">
-        <div class="w-55 h-46 border-gray-800 flex items-center justify-center">
+        <div class="w-70   h-48 border-gray-800 flex items-center justify-center">
           <div class="text-center text-xs">
-            <div><img    src="/img/lycee.jpg"  alt="Armoiries du Cameroun" class="object-contain w-55 h-44"></div>
+            <div><img    src="/img/lycee.jpg"  alt="Armoiries du Cameroun" class="object w-[306px] h-44"></div>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
         <div class="stars-divider">**************</div>
         <div>REGIONAL DELEGATION FOR THE LITTORAL</div>
         <div class="stars-divider text-head">**************</div>
-        <div>DIVISIONAL DELEGATION FOR THE WOURI</div>
+        <div>DIVISIONAL DELEGATION FOR THE MOUNGO</div>
         <div class="stars-divider text-head">**************</div>
         <div class="font-bold text-head uppercase">{{etablissement?.nomEn}}</div>
         <div><span class="mr-1">PO BOX:</span>{{etablissement?.codePostal}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tél: {{etablissement?.telephone}}</div>
@@ -88,11 +88,11 @@
     </div>
 
     <!-- Titre principal -->
-    <div class="text-center mb-3">
+    <div class="text-center mb-1">
       <div class="text-lg font-bold mb-2">ANNEE SCOLAIRE {{etablissement?.anneeScolaire}}</div>
       <div class="flex  items-center   justify-center gap-4">
-        <div class="text-lg font-semibold items-center flex justify-center w-full  "  >
- EMPLOI DU TEMPS DE LA CLASSE DE   <span class="text-lg ml-9     px-2 font-bold bg-black text-white py-1">{{ selectedClasse.nom || 'SIXIEME 1' }} #-</span> <span></span>
+        <div class="text-xl font-medium items-center gap-6  flex justify-center w-full  "  >
+ <p>EMPLOI DU TEMPS DE LA CLASSE DE </p>  <p class="text-2xl       font-[900]      ">{{ selectedClasse.nom || 'SIXIEME 1' }} _  </p>
 </div>
         
        
@@ -120,8 +120,22 @@
         <tr *ngFor="let horaire of horairesFixes" [ngClass]="{ 'ligne-vide': isLigneVide(horaire) }">
           <td class="time-cell  ">{{ horaire.label }}</td>
           <ng-container *ngFor="let jour of jours">
-            <td class="class-cell text-sm  font-semibold italic">{{ getCelluleContent(horaire, jour).discipline || '' }}</td>
-            <td class="subject-cell text-sm ">{{ getCelluleContent(horaire, jour).enseignant || '' }}</td>
+            <td class="class-cell text-xs  font-semibold italic">{{ getCelluleContent(horaire, jour).discipline || '' }}</td>
+            <!-- <td class="subject-cell font-medium text-sm "> <span *ngIf="getCelluleContent(horaire, jour).enseignant" class="text-[6px] lowercase font-bold">prof</span> {{ getCelluleContent(horaire, jour).enseignant || '' }}</td> -->
+   <td class="subject-cell font-medium text-sm">
+  <span *ngIf="getCelluleContent(horaire, jour)?.enseignant"
+        class="text-[6px] lowercase font-bold">
+    prof
+  </span>
+  {{
+    getCelluleContent(horaire, jour)?.enseignant && (getCelluleContent(horaire, jour)?.enseignant ?? '').length > 8
+      ? getCelluleContent(horaire, jour)?.enseignant?.substring(0, 8) + '-' +
+        getCelluleContent(horaire, jour)?.enseignant?.substring(8)
+      : getCelluleContent(horaire, jour)?.enseignant || ''
+  }}
+</td>
+
+
           </ng-container>
         </tr>
       </tbody>

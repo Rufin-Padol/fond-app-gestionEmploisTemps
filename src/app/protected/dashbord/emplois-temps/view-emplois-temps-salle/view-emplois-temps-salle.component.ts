@@ -830,7 +830,7 @@ async captureToPDF(): Promise<void> {
         transformOrigin: 'top left',
         fontFamily: '"Times New Roman", serif', // Force la police système
        
-        fontSize: '12px', // Taille fixe pour éviter les variations
+        fontSize: '13px', // Taille fixe pour éviter les variations
         lineHeight: '1.1'
       },
       filter: (node) => {
@@ -861,7 +861,7 @@ async captureToPDF(): Promise<void> {
     const pdfHeight = 210;
     
     // Marges plus importantes pour Word
-    const margin = 10;
+    const margin = 6;
     const imgWidth = pdfWidth - (margin * 2);
     const imgHeight = pdfHeight - (margin * 2);
     

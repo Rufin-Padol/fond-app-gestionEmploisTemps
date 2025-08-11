@@ -479,8 +479,8 @@
   <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-green-400 transition-colors duration-200">
     <div class="space-y-1 text-center">
       <div *ngIf="logoPreview || editingDto?.etablissement?.logo; else noLogo" class="mb-4">
-        <img [src]="logoPreview || apiUrl+editingDto?.etablissement?.logo" 
-             [alt]="editingDto?.etablissement?.nom" 
+        <img [src]="logoPreview || apiUrl+editingDto.etablissement?.logo" 
+             [alt]="editingDto.etablissement?.nom" 
              class="mx-auto h-16 w-16 object-cover rounded-lg">
         <div class="mt-2 flex justify-center space-x-2">
           <button type="button" 
