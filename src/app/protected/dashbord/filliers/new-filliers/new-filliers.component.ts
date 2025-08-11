@@ -151,13 +151,13 @@ export class NewFilliersComponent {
       return 'Le code matière est requis';
     }
 
-    if (!this.matiere.categorie) {
-      return 'La catégorie est requise';
-    }
+    // if (!this.matiere.categorie) {
+    //   return 'La catégorie est requise';
+    // }
 
-    if (!this.matiere.idDepartement) {
-      return 'Le département est requis';
-    }
+    // if (!this.matiere.idDepartement) {
+    //   return 'Le département est requis';
+    // }
 
     if (this.matiere.nom.trim().length < 2) {
       return 'Le nom doit contenir au moins 2 caractères';
@@ -167,9 +167,9 @@ export class NewFilliersComponent {
       return 'Le code matière doit contenir au moins 2 caractères';
     }
     
-    if (this.matiere.coefficient && (this.matiere.coefficient < 1 || this.matiere.coefficient > 10)) {
-      return 'Le coefficient doit être entre 1 et 10';
-    }
+    // if (this.matiere.coefficient && (this.matiere.coefficient < 1 || this.matiere.coefficient > 10)) {
+    //   return 'Le coefficient doit être entre 1 et 10';
+    // }
 
     return null;
   }

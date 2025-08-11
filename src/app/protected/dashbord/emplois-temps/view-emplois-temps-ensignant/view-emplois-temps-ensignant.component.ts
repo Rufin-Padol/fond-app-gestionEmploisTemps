@@ -47,6 +47,7 @@ export class ViewEmploisTempsEnsignantComponent  implements OnInit {
   etablissementId = 0;
   etablissement!: EtablissementDto; 
   ipserveur: string = '';
+  nombrejoursfaist : number= 0;
 
     apiUrl= "http://localhost:8080";
   
@@ -157,6 +158,11 @@ this.getEtablissementId();
       .subscribe(data => {
         if (data) {
           this.emploiData = data;
+     this.nombrejoursfaist = data.emploiDuTemps
+  ? data.emploiDuTemps
+      .map(jour => jour.creneaux?.length ?? 0)
+      .reduce((acc, val) => acc + val, 0)
+  : 0;
           this.selectedEnseignant = data.enseignant;
           this.getEtablissementId();
           console.log('Données enseignant chargées:', this.emploiData);
