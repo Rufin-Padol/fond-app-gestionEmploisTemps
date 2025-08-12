@@ -48,6 +48,7 @@ export class ViewEmploisTempsEnsignantComponent  implements OnInit {
   etablissement!: EtablissementDto; 
   ipserveur: string = '';
   nombrejoursfaist : number= 0;
+  heureDue : string= '0h';
 
     apiUrl= "http://localhost:8080";
   
@@ -164,6 +165,14 @@ this.getEtablissementId();
       .reduce((acc, val) => acc + val, 0)
   : 0;
           this.selectedEnseignant = data.enseignant;
+          if(data.enseignant?.idEtablissement == 5 && data.enseignant?.grade === "PLET" ){
+              this.heureDue = '18h';
+          }else if(data.enseignant?.idEtablissement == 5 && data.enseignant?.grade == 'PCET'){
+            this.heureDue = '20h';
+          }else{
+             this.heureDue = data.statistiques?.heuresDue || '0h' ;
+          }
+          
           this.getEtablissementId();
           console.log('Données enseignant chargées:', this.emploiData);
          console.log('lastSelectedEnseignantId',   this.selectedEnseignant);

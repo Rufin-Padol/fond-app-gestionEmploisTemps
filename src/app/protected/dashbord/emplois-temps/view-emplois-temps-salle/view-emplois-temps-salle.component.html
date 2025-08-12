@@ -128,10 +128,10 @@
     prof
   </span> -->
   {{
-    getCelluleContent(horaire, jour)?.enseignant && (getCelluleContent(horaire, jour)?.enseignant ?? '').length > 18
-      ? getCelluleContent(horaire, jour)?.enseignant?.substring(0, 18) + '-' +
-        getCelluleContent(horaire, jour)?.enseignant?.substring(18)
-      : getCelluleContent(horaire, jour)?.enseignant || ''
+    getCelluleContent(horaire, jour).enseignant && (getCelluleContent(horaire, jour).enseignant ?? '').length > 18
+      ? getCelluleContent(horaire, jour).enseignant?.substring(0, 18) + '-' +
+        getCelluleContent(horaire, jour).enseignant?.substring(18)
+      : getCelluleContent(horaire, jour).enseignant || ''
   }}
 </td>
 

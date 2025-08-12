@@ -316,7 +316,7 @@ console.log('Matière à créer:', matiereToCreate);
    */
   closeConfirmModal(): void {
     this.showConfirmModal = false;
-    this.router.navigate(['/dashboard/matieres']);
+    this.router.navigate(['/dashboard/filliers']);
   }
 
   /**

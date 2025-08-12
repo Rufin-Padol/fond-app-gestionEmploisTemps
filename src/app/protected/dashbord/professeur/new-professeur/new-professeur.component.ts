@@ -78,6 +78,8 @@ showAddDiplomeButton = false;
 
 // Liste statique des grades
 grades: string[] = [
+  'PLET',
+  'PCET',
   'Instituteur Adjoint',
   'Instituteur Certifié',
   'Maître d\'application',

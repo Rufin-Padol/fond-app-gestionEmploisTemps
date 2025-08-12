@@ -99,7 +99,7 @@
     </div>
 
     <!-- Titre principal -->
-    <div class="text-center mb-2">
+    <div class="text-center ">
       <!-- <div class="text-base font-black mb-2">EMPLOI DU TEMPS INDIVIDUEL DE L'ENSEIGNANT/ TEACHER'S INDIVIDUAL TIME TABLE</div> -->
    
 <div class="inner-shadow-text" data-text="EMPLOI DU TEMPS INDIVIDUEL DE L'ENSEIGNANT/ TEACHER'S INDIVIDUAL TIME TABLE">
@@ -111,24 +111,24 @@
     <!-- Informations de l'enseignant -->
     <div class="grid  grid-cols-3     text-base  ">
             <div class="  grid-cols-3 grid   col-span-3">
-        <div class="col-span-2"><span class=" col-span-2 ">Nom de l'enseignant/Teacher's name :</span > <strong class="text-2xl ml-14 uppercase">{{ selectedEnseignant.nomComplet }}</strong></div>
+        <div class="col-span-2"><span class=" col-span-2 ">Nom de l'enseignant/Teacher's name :</span > <strong class="text-[20px] ml-10 uppercase">{{ selectedEnseignant.nomComplet }}</strong></div>
          <div class="  col-span-1"><span class=" ">Année scolaire/Academic year :</span> {{ emploiData.anneeScolaire }}</div>
       </div>
 
             <div class="  grid-cols-3 grid   col-span-3">
-       <div  class="col-span-2"><span class=" ">Grade/Rank : <strong class="  ml-2 mr-14">{{ selectedEnseignant.grade }}</strong> </span> diplôme le plus élevé/Highest diploma :<strong class="  ml-10  ">{{ selectedEnseignant.diplome }}</strong>  </div>
-          <div class="col-span-1"><span class=" ">Matière/Subjects :</span>  <strong class="   ml-2  ">{{ selectedEnseignant.departement.nom }}</strong></div>
+       <div  class="col-span-2"><span class=" ">Grade/Rank : <strong class="text-[14px]  ml-2 mr-14">{{ selectedEnseignant.grade }}</strong> </span> diplôme le plus élevé/Highest diploma :<strong class="  ml-10 text-[13px] ">{{ selectedEnseignant.diplome }}</strong>  </div>
+          <div class="col-span-1"><span class=" ">Matière/Subjects :</span>  <strong class=" text-[13px]  ml-2  ">{{ selectedEnseignant.departement.nom }}</strong></div>
       </div>
 
         <div class="  grid-cols-3 grid   col-span-3">
-      <div class="col-span-1"><span class="text-base">Ancienneté au/years spent in service on</span> : <span class="font-bold ml-2">{{ selectedEnseignant.anciennete }} ans</span></div> 
-         <div class="col-span-1"><span class=" ">Heures dues/ Hours due :</span>  <strong class="  ml-2  ">{{ emploiData.statistiques?.heuresDue }}</strong></div>
-        <div class="col-span-1"><span class=" ">Heures faites/Hours done :</span> <strong class="  ml-2  ">{{ emploiData.statistiques?.heuresFaites }} </strong></div>
+      <div class="col-span-1"><span class="text-base">Ancienneté au/years spent in service on</span> : <span class="font-bold text-[14px] ml-2">{{ selectedEnseignant.anciennete }} ans</span></div> 
+         <div class="col-span-1"><span class=" ">Heures dues/ Hours due :</span>  <strong class="  ml-2 text-[14px] ">{{ heureDue }}</strong></div>
+        <div class="col-span-1"><span class=" ">Heures faites/Hours done :</span> <strong class="  ml-2 text-[14px] ">{{ nombrejoursfaist }}h </strong></div>
       </div>
 
        <div class="  grid-cols-3 grid   col-span-3">
-     <div class="col-span-1"><span class=" ">matricule :</span><strong class="  ml-2 mr-10 ">{{ selectedEnseignant.matricule }}</strong> </div>
-                <div class="col-span-2"><span class=" ">Telephone / Phone number :</span>  <strong class="  ml-2  ">{{ selectedEnseignant.telephone }}</strong></div>
+     <div class="col-span-1"><span class=" ">matricule :</span><strong class="  ml-2 mr-10 text-[14px]">{{ selectedEnseignant.matricule }}</strong> </div>
+                <div class="col-span-2"><span class=" ">Telephone / Phone number :</span>  <strong class="  ml-2 text-[14px] ">{{ selectedEnseignant.telephone }}</strong></div>
         
       </div>
       <!-- <div class="space-y-1 col-span-2">
@@ -196,11 +196,11 @@
     <div class="info-header">
       Classes enseignées / Classes taught
     </div>
-    <div class="info-content text-sm leading-snug text-center">
-      <div class="  border-b-2  row">
+    <div class="info-content text-xs leading-snug text-center">
+      <div class="text-[11px]   border-b-2  row">
         {{ getClassesEnseigneesByCycle().cycle1.join(' ; ') || '' }}
       </div>
-      <div class=" w-full row">
+      <div class="text-xs  w-full row">
         {{ getClassesEnseigneesByCycle().cycle2.join(' ; ') || '' }}
       </div>
     </div>
@@ -210,8 +210,8 @@
         <div class="info-header">
           Disciplines / Subjects
         </div>
-        <div class="info-content uppercase">
-          {{ getDisciplines() }}
+        <div class="info-content   uppercase">
+       <span class="text-[10px]">   {{ getDisciplines() }}</span>
         </div>
       </div>
 
@@ -220,7 +220,7 @@
         <div class="info-header">
           Nbre de périodes / Numbers of periods
         </div>
-        <div class="info-content text-base info-bold" style="font-size: 18px;">
+        <div class="info-content text-base info-bold" style="font-size: 16px;">
           {{nombrejoursfaist }}h
         </div>
       </div>

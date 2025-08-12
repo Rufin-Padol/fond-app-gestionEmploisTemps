@@ -221,6 +221,9 @@ private isEnseignantDto(obj: any): obj is EnseignantDto {
         filiere: '',
         matiere: ''
       };
+      this.loadEmploisTempsClasse();
+    this.getAllEmploiEnseignant()
+      // this.lo
     }
   
     isClasseEmploi(emploi: any): emploi is EmploiDuTempsClasseDto {

@@ -167,7 +167,7 @@
   vertical-align: middle;
   height: 24px;
   padding: 0px  2px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   word-wrap: break-word;  /* permet de couper les mots longs */
   white-space: normal; 
@@ -180,7 +180,7 @@
   min-width: 120px;
   background-color: #f9f9f9;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* Cellules classe et matière */
@@ -188,7 +188,7 @@
 .subject-cell {
   width: 100px;
   min-width: 100px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .ligne-vide{
