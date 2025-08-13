@@ -149,7 +149,7 @@
   </div>
 
   <!-- Liste des emplois du temps -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div *ngIf="!loading"  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <!-- Card Emploi du Temps améliorée -->
     <div *ngFor="let emploi of getEmploisActifs()" 
          class="emploi-card border border-gray-200 rounded-xl overflow-hidden   transition-all duration-300 hover:border-green-200       ">

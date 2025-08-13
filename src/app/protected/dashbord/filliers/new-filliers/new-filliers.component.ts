@@ -35,15 +35,15 @@ export class NewFilliersComponent {
   loadingDepartements = false;
 
   // Données
-  departements: DepartementDto[] = [];
+  // departements: DepartementDto[] = [];
   
   // Données de configuration
-  categories = [
-    { value: CategorieMatiere.GENERAL, label: 'Générale' },
-    { value: CategorieMatiere.TECHNIQUE, label: 'Technologie et professionnel' },
-    { value: CategorieMatiere.PROFESSIONNEL, label: 'Complementaire' },
-    { value: CategorieMatiere.AUTRE, label: 'autre' }
-  ];
+  // categories = [
+  //   { value: CategorieMatiere.GENERAL, label: 'Générale' },
+  //   { value: CategorieMatiere.TECHNIQUE, label: 'Technologie et professionnel' },
+  //   { value: CategorieMatiere.PROFESSIONNEL, label: 'Complementaire' },
+  //   { value: CategorieMatiere.AUTRE, label: 'autre' }
+  // ];
 
   formSubmitted = false;
 
@@ -102,17 +102,17 @@ export class NewFilliersComponent {
 
     // Version avec service réel (à décommenter quand le service sera disponible)
  
-    this.departementService.getAllDepartements().subscribe({
-      next: (departements) => {
-        this.departements = departements;
-        this.loadingDepartements = false;
-      },
-      error: (error) => {
-        console.error('Erreur lors du chargement des départements:', error);
-        this.errorMessage = 'Erreur lors du chargement des départements';
-        this.loadingDepartements = false;
-      }
-    });
+    // this.departementService.getAllDepartements().subscribe({
+    //   next: (departements) => {
+    //     this.departements = departements;
+    //     this.loadingDepartements = false;
+    //   },
+    //   error: (error) => {
+    //     console.error('Erreur lors du chargement des départements:', error);
+    //     this.errorMessage = 'Erreur lors du chargement des départements';
+    //     this.loadingDepartements = false;
+    //   }
+    // });
    
   }
 
@@ -147,9 +147,9 @@ export class NewFilliersComponent {
       return 'Le nom de la matière est requis';
     }
 
-    if (!this.matiere.code?.trim()) {
-      return 'Le code matière est requis';
-    }
+    // if (!this.matiere.code?.trim()) {
+    //   return 'Le code matière est requis';
+    // }
 
     // if (!this.matiere.categorie) {
     //   return 'La catégorie est requise';
@@ -163,9 +163,9 @@ export class NewFilliersComponent {
       return 'Le nom doit contenir au moins 2 caractères';
     }
 
-    if (this.matiere.code.trim().length < 2) {
-      return 'Le code matière doit contenir au moins 2 caractères';
-    }
+    // if (this.matiere.code.trim().length < 2) {
+    //   return 'Le code matière doit contenir au moins 2 caractères';
+    // }
     
     // if (this.matiere.coefficient && (this.matiere.coefficient < 1 || this.matiere.coefficient > 10)) {
     //   return 'Le coefficient doit être entre 1 et 10';
@@ -218,7 +218,7 @@ console.log('Matière à créer:', matiereToCreate);
    
     this.matiereService.createMatiere(matiereToCreate).subscribe({
       next: (response) => {
-        this.lastCreatedMatiere = response;
+        // this.lastCreatedMatiere = response;
         this.successMessage = 'Matière créée avec succès';
         this.errorMessage = '';
         console.log('Matière créée:', response);
@@ -335,18 +335,18 @@ console.log('Matière à créer:', matiereToCreate);
   /**
    * Obtient le libellé d'une catégorie
    */
-  getCategorieLabel(categorie: CategorieMatiere | undefined): string {
-    if (!categorie) return '';
-    const cat = this.categories.find(c => c.value === categorie);
-    return cat ? cat.label : '';
-  }
+  // getCategorieLabel(categorie: CategorieMatiere | undefined): string {
+  //   if (!categorie) return '';
+  //   const cat = this.categories.find(c => c.value === categorie);
+  //   return cat ? cat.label : '';
+  // }
 
   /**
    * Obtient le nom d'un département
    */
-  getDepartementNom(departementId: number | undefined): string {
-    if (!departementId) return '';
-    const dept = this.departements.find(d => d.id === departementId);
-    return dept ? dept.nom : '';
-  }
+  // getDepartementNom(departementId: number | undefined): string {
+  //   if (!departementId) return '';
+  //   const dept = this.departements.find(d => d.id === departementId);
+  //   return dept ? dept.nom : '';
+  // }
 }

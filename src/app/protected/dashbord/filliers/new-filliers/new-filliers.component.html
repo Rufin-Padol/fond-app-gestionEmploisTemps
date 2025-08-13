@@ -87,10 +87,10 @@
               [class.border-red-300]="isFieldInvalid('codeMat')"
               maxlength="10"
              
-              required>
-            <div *ngIf="isFieldInvalid('codeMat')" class="mt-1 text-sm text-red-600">
-              <!-- Le code matière est requis -->
-            </div>
+               >
+            <!-- <div *ngIf="isFieldInvalid('codeMat')" class="mt-1 text-sm text-red-600">
+              <!-- Le code matière est requis 
+            </div> -->
           </div>
 
           <!-- Coefficient -->
@@ -162,7 +162,7 @@
         </div>
 
         <!-- Aperçu -->
-        <div *ngIf="matiere.nom || matiere.code || matiere.categorie || matiere.idDepartement" class="mt-6 border border-gray-200 rounded-lg bg-gray-50 px-4 py-3">
+        <div *ngIf="matiere.nom || matiere.code " class="mt-6 border border-gray-200 rounded-lg bg-gray-50 px-4 py-3">
           <h3 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wide">
             Aperçu de la matière
           </h3>
@@ -215,7 +215,7 @@
         </div>
       </div>
       <p class="text-gray-600 mb-6">
-        La matière <strong>{{ lastCreatedMatiere?.nom }}</strong> ({{ lastCreatedMatiere?.code }}) a été créée dans le département <strong>{{ getDepartementNom(lastCreatedMatiere?.idDepartement) }}</strong>.
+        La matière <strong>{{ lastCreatedMatiere?.nom }}</strong> ({{ lastCreatedMatiere?.code }}) a été créée dans le département  
       </p>
       <div class="flex justify-end space-x-3">
         <button

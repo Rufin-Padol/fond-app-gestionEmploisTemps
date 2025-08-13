@@ -165,10 +165,13 @@ this.getEtablissementId();
       .reduce((acc, val) => acc + val, 0)
   : 0;
           this.selectedEnseignant = data.enseignant;
-          if(data.enseignant?.idEtablissement == 5 && data.enseignant?.grade === "PLET" ){
+          if(data.enseignant?.idEtablissement == 5 && (data.enseignant?.grade === "PLET" || data.enseignant?.grade === "PLETP" || data.enseignant?.grade === "PLEG" ) ){
               this.heureDue = '18h';
-          }else if(data.enseignant?.idEtablissement == 5 && data.enseignant?.grade == 'PCET'){
+          }else if(data.enseignant?.idEtablissement == 5 && (data.enseignant?.grade == 'PCET'|| data.enseignant?.grade == 'PCETP' || data.enseignant?.grade == 'PCEG' )){
             this.heureDue = '20h';
+
+            }else if(data.enseignant?.idEtablissement == 5 && (data.enseignant?.grade == 'IETP'|| data.enseignant?.grade == 'IET')){
+            this.heureDue = '22h';
           }else{
              this.heureDue = data.statistiques?.heuresDue || '0h' ;
           }

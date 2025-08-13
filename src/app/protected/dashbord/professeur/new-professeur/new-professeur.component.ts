@@ -79,20 +79,13 @@ showAddDiplomeButton = false;
 // Liste statique des grades
 grades: string[] = [
   'PLET',
+  'PLETP',
+  'PLEG',
+  'PCETP',
   'PCET',
-  'Instituteur Adjoint',
-  'Instituteur Certifié',
-  'Maître d\'application',
-  'Chargé de cours',
-  'Professeur des Lycées d\'Enseignement Général',
-  'Professeur des Lycées d\'Enseignement Technique',
-  'Professeur certifié',
-  'Professeur agrégé',
-  'Inspecteur Pédagogique Régional',
-  'Inspecteur Coordonnateur',
-  'Censeur',
-  'Proviseur',
-  'Principal'
+  'PCEG',
+  'IETP',
+  'IET'
 ];
 
   filteredGrades: string[] = [];
