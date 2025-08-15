@@ -128,7 +128,7 @@
 .day-name {
   border-bottom: 2px solid #000000;
   padding: 0px 4px;
-  height: 24px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,7 +141,7 @@
   
   display: flex;
    /* font-size: 17px; */
-  height: 24px;
+  height: 26px;
 }
 
 .subheader-left {
@@ -158,9 +158,9 @@
     /* border: 1px solid red; */
   flex: 1;
   padding:0 3px;
-  display: flex;
+   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
   font-size: 13px;
 }
 
@@ -169,9 +169,14 @@
   border: 2px solid #000000;
   text-align: center;
   vertical-align: middle;
-  height: 36px;
+  height: 42px;
   padding: 0px 3px;
+  /* margin: 0 2px; */
   /* font-size: 13px; */
+   /* display: flex;
+  align-items: center;
+  justify-content: center; 
+  flex-direction: column; */
   line-height: 1.5;
 }
 
@@ -183,7 +188,7 @@
   background-color: #f9f9f9;
   font-weight: 500;
   font-size: 16px;
-   padding: 3px 0;
+   padding: 4px 0;
 }
 
 /* Cellules classe et matière */
@@ -192,15 +197,18 @@
     /* border: 1px solid red; */
   width: 100px;
   min-width: 100px;
-   font-size: 16px;
+   font-size: 10.5px;
   line-height: 1.5;
-  padding: 3px 0;
+  padding: 4px 0px;
+ 
   /* text-transform: uppercase; */
 }
 .class-cell{
- font-size: 13px;
+ font-size: 12px;
  text-transform: uppercase;
 }
+
+ 
 
 .ligne-vide {
   background-color: #b3b3b3;

@@ -217,7 +217,7 @@ this.getEtablissementId();
        
       return {
         
-        classe:  creneau.nomClasse ||  'T. D 1', // Utiliser classe du creneau ou valeur par défaut
+        classe:  String(creneau.nomClasse) ||  'T. D 1', // Utiliser classe du creneau ou valeur par défaut
         matiere: creneau.matiere?.code || 'Maths',
         creneau: creneau
       };

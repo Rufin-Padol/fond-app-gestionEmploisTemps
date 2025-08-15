@@ -112,7 +112,7 @@
     <div class="grid  grid-cols-3     text-base  ">
             <div class="  grid-cols-3 grid   col-span-3">
         <div class="col-span-2"><span class=" col-span-2 ">Nom de l'enseignant/Teacher's name :</span > <strong class="text-[20px] ml-10 uppercase">{{ selectedEnseignant.nomComplet }}</strong></div>
-         <div class="  col-span-1"><span class=" ">Année scolaire/Academic year :</span> {{ emploiData.anneeScolaire }}</div>
+         <div class="  col-span-1"><span class=" ">Année scolaire/Academic year :</span> <strong> {{ emploiData.anneeScolaire }}</strong></div>
       </div>
 
             <div class="  grid-cols-3 grid   col-span-3">
@@ -167,8 +167,8 @@
         <tr *ngFor="let horaire of horairesFixes"  [ngClass]="{ 'ligne-vide': isLigneVide(horaire) }">
           <td class="time-cell">{{ horaire.label }}</td>
           <ng-container *ngFor="let jour of jours">
-            <td class="class-cell font-semibold italic">{{ getCelluleContent(horaire, jour).classe || '' }}</td>
-            <!-- <td class="class-cell font-semibold italic"> dddkzwwwwwwwww</td> -->
+            <td class="class-cell font-semibold italic "> {{ getCelluleContent(horaire, jour).classe || '' }}</td>
+            <!-- <td class="class-cell font-semibold italic uppercase"> dddkzwwwwwwwww</td> -->
             <td class="subject-cell">{{ getCelluleContent(horaire, jour).matiere || '' }}</td>
           </ng-container>
         </tr>
