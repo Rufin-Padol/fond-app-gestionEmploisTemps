@@ -165,7 +165,7 @@
   border: 2px solid #000000;
   text-align: center;
  
-  height:28px;
+  height:26px;
   
   padding: 0px  2px;
   
@@ -275,7 +275,7 @@
 /* Pied de page */
 .footer-section {
   font-size: 13px;
-  margin-top: 10px;
+  margin-top: 8px;
   width: 100%;
   max-width: 1200px;
   margin-left: auto;
